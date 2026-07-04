@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tonight is yours ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: var(--cream); }
+
+/* ── SCENE ──────────────────────────────────────────────── */
+.scene {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg, #EBD8BE 0%, #DCC9A8 50%, #8B6640 50.1%, #7A5530 100%);
+  overflow: hidden;
+}
+
+/* Warm glow from candles */
+.scene::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 48%, rgba(232,160,48,0.16) 0%, transparent 65%);
+  pointer-events: none; z-index: 1;
+}
+
+/* ── WALL & FLOOR ──────────────────────────────────────── */
+.wall {
+  position: absolute; inset: 0 0 30vh 0;
+  background: linear-gradient(180deg, #EBD8BE 0%, #E2CFAC 100%);
+}
+.wall::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg, transparent, transparent 38px,
+    rgba(160,120,70,0.06) 38px, rgba(160,120,70,0.06) 39px
+  );
+}
+
+.floor {
+  position: absolute; bottom: 0; inset: auto 0 0;
+  height: 30vh;
+  background: linear-gradient(180deg, #8B6640 0%, #7A5530 100%);
+}
+.floor::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg, transparent, transparent 90px,
+    rgba(0,0,0,0.04) 90px, rgba(0,0,0,0.04) 91px
+  );
+}
+
+/* ── TABLE ─────────────────────────────────────────────── */
+.table {
+  position: absolute; bottom: 24vh;
+  left: 50%; transform: translateX(-50%);
+  width: 80vw; max-width: 960px;
+  height: 7vh; min-height: 44px;
+  background: linear-gradient(180deg, #6B4226 0%, #5A3820 100%);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.22);
+  z-index: 10;
+}
+.table-top {
+  position: absolute; bottom: 24vh;
+  left: 50%; transform: translateX(-50%);
+  width: 80vw; max-width: 960px;
+  height: 5px;
+  background: linear-gradient(90deg, #9E7A52, #C4956A 40%, #C4956A 60%, #9E7A52);
+  z-index: 11;
+}
+
+/* ── FAIRY LIGHTS ──────────────────────────────────────── */
+.fairy-string {
+  position: absolute; top: 10vh; left: 4vw; right: 4vw;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(196,168,98,0.3) 15%, rgba(196,168,98,0.3) 85%, transparent);
+  z-index: 4;
+}
+.fairy-light {
+  position: absolute;
+  width: 8px; height: 12px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  top: -1px;
+  animation: fairy-breathe var(--dur, 2.5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+/* ── WINDOW ────────────────────────────────────────────── */
+.window-wrap {
+  position: absolute; right: 5vw; top: 7vh;
+  width: 16vw; min-width: 140px; max-width: 200px;
+  height: 40vh;
+  z-index: 4;
+}
+.window-glass {
+  position: absolute; inset: 12px;
+  background: linear-gradient(160deg, #1A2A3A 0%, #0D1A26 100%);
+  overflow: hidden;
+  border: 2px solid #C4A862;
+}
+.window-glass::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), #C4A862 calc(50% - 1px), #C4A862 calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(180deg, transparent calc(50% - 1px), #C4A862 calc(50% - 1px), #C4A862 calc(50% + 1px), transparent calc(50% + 1px));
+}
+.window-outer {
+  position: absolute; inset: 0;
+  border: 10px solid #8B6840;
+  box-shadow: inset 0 0 0 2px #A07848;
+}
+.w-curtain {
+  position: absolute; top: -8px; bottom: -8px; width: 28px;
+  background: linear-gradient(90deg, #C9B8E8, #B8A8D8);
+  z-index: 5;
+}
+.w-curtain-l { left: -24px; border-radius: 0 8px 8px 0; }
+.w-curtain-r { right: -24px; border-radius: 8px 0 0 8px; }
+.rain-area { position: absolute; inset: 0; overflow: hidden; }
+
+/* Stars in window (less intense now — almost cleared by birthday mood) */
+.star-win { position: absolute; background: white; border-radius: 50%; animation: star-twinkle var(--dur,3s) ease-in-out var(--delay,0s) infinite; }
+
+/* ── BIRTHDAY CAKE (HERO) ──────────────────────────────── */
+.cake-wrap {
+  position: absolute;
+  left: 50%; bottom: 24vh;
+  transform: translateX(-50%) translateY(-100%);
+  z-index: 20;
+  text-align: center;
+  cursor: none;
+}
+
+.cake-svg { display: block; margin: 0 auto; }
+
+.cake-label {
+  font-family: var(--font-hand);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  opacity: 0;
+  animation: fade-in 0.6s ease 1s forwards;
+}
+
+/* Candle flames on cake */
+.cake-flame {
+  animation: flame-dance var(--dur, 1.7s) ease-in-out var(--delay, 0s) infinite;
+  transform-origin: center bottom;
+}
+.cake-flame.blown { animation: none; opacity: 0; transition: opacity 0.4s ease; }
+
+/* After blow magic */
+.blow-magic {
+  position: absolute; inset: -40px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.blow-magic.active { opacity: 1; }
+
+/* ── NOTES ON TABLE ────────────────────────────────────── */
+.table-note {
+  position: absolute; bottom: 24vh; z-index: 15;
+  transform: translateY(-100%);
+}
+
+/* ── SCATTERED STICKY NOTES ────────────────────────────── */
+.sticky-note-p2 {
+  background: #FFF9D0;
+  padding: 12px 14px;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+  font-family: var(--font-hand);
+  font-size: 13px;
+  color: var(--text-dark);
+  line-height: 1.7;
+  position: absolute;
+  z-index: 16;
+  transition: transform 0.3s var(--ease-spring);
+  cursor: none;
+}
+.sticky-note-p2:hover { z-index: 30; transform: var(--rotation, rotate(-1deg)) scale(1.04) !important; }
+
+/* ── CAT ON TABLE ──────────────────────────────────────── */
+.table-cat {
+  position: absolute; right: 14%; bottom: 24vh;
+  transform: translateY(-80%);
+  z-index: 14;
+  cursor: none;
+  animation: cat-breathe 3.5s ease-in-out infinite;
+}
+
+/* ── COFFEE & LAVENDER ─────────────────────────────────── */
+.table-item { position: absolute; bottom: 24vh; transform: translateY(-100%); z-index: 13; cursor: none; }
+
+/* ── BLOW INSTRUCTION ──────────────────────────────────── */
+.blow-hint {
+  position: fixed; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-hand); font-size: 15px;
+  color: var(--text-light); text-align: center;
+  z-index: 50; pointer-events: none;
+  opacity: 0; animation: slide-up 0.6s ease 1.5s forwards;
+}
+
+/* ── PETAL CELEBRATE ───────────────────────────────────── */
+.celebrate-text {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6vw, 56px);
+  color: var(--coffee);
+  text-align: center; line-height: 1.4;
+  opacity: 0; pointer-events: none; z-index: 90;
+  text-shadow: 0 2px 16px rgba(107,66,38,0.2);
+}
+.celebrate-text.show { animation: slide-up 1s ease forwards; }
+.celebrate-sub {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: clamp(18px, 3vw, 28px);
+  color: var(--lavender-dark);
+  margin-top: 10px;
+}
+
+/* ── CONTINUE ──────────────────────────────────────────── */
+.page-continue {
+  position: fixed; bottom: 36px; right: 40px;
+  z-index: 80; opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.page-continue.show { opacity: 1; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .window-wrap { display: none; }
+  .cake-wrap { left: 50%; }
+}
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="scene">
+  <div class="wall"></div>
+  <div class="floor"></div>
+  <div class="table"></div>
+  <div class="table-top"></div>
+
+  <!-- Fairy lights string -->
+  <div class="fairy-string" id="fairy-string"></div>
+
+  <!-- Window -->
+  <div class="window-wrap">
+    <div class="window-glass">
+      <div class="rain-area" id="rain-container"></div>
+      <div id="win-stars"></div>
+    </div>
+    <div class="window-outer"></div>
+    <div class="w-curtain w-curtain-l"></div>
+    <div class="w-curtain w-curtain-r"></div>
+  </div>
+
+  <!-- ═══ BIRTHDAY CAKE ═══ -->
+  <div class="cake-wrap" id="cake-wrap" onclick="blowCandle()">
+    <svg class="cake-svg" id="cake-svg" width="220" height="180" viewBox="0 0 220 180" fill="none">
+      <!-- Cake base (bottom tier) -->
+      <rect x="20" y="120" width="180" height="50" rx="8" fill="#E8C4A0"/>
+      <rect x="20" y="118" width="180" height="12" rx="4" fill="#F0D0B0"/>
+      <!-- Frosting drips on bottom tier -->
+      <path d="M20,130 Q30,122 40,130 Q50,122 60,130 Q70,122 80,130 Q90,122 100,130 Q110,122 120,130 Q130,122 140,130 Q150,122 160,130 Q170,122 180,130 Q190,122 200,130" stroke="white" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Cake middle tier -->
+      <rect x="40" y="80" width="140" height="42" rx="6" fill="#EBCEAE"/>
+      <rect x="40" y="78" width="140" height="10" rx="4" fill="#F5DCB8"/>
+      <!-- Frosting drips middle -->
+      <path d="M40,90 Q52,83 64,90 Q76,83 88,90 Q100,83 112,90 Q124,83 136,90 Q148,83 160,90 Q172,83 180,90" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Cake top tier -->
+      <rect x="60" y="52" width="100" height="30" rx="6" fill="#F0D4B8"/>
+      <rect x="60" y="50" width="100" height="10" rx="4" fill="#FAE0C4"/>
+      <!-- Frosting top -->
+      <path d="M60,60 Q72,54 84,60 Q96,54 108,60 Q120,54 132,60 Q144,54 156,60 Q162,54 160,60" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Decorative dots -->
+      <circle cx="60"  cy="140" r="4" fill="#E8B4B8" opacity="0.8"/>
+      <circle cx="100" cy="140" r="4" fill="#C9B8E8" opacity="0.8"/>
+      <circle cx="140" cy="140" r="4" fill="#9CAF88" opacity="0.8"/>
+      <circle cx="180" cy="140" r="4" fill="#E8B4B8" opacity="0.8"/>
+      <circle cx="80"  cy="100" r="3.5" fill="#C9B8E8" opacity="0.8"/>
+      <circle cx="120" cy="100" r="3.5" fill="#E8B4B8" opacity="0.8"/>
+      <circle cx="160" cy="100" r="3.5" fill="#9CAF88" opacity="0.8"/>
+      <!-- "21" on cake -->
+      <text x="110" y="72" text-anchor="middle" font-family="Georgia" font-size="16" font-weight="bold" fill="#C4A862" font-style="italic">21</text>
+      <!-- CANDLES (21 total, rendered by JS) -->
+      <g id="candles-group"></g>
+    </svg>
+    <div class="cake-label" id="cake-label">✦ click to blow out the candles ✦</div>
+  </div>
+
+  <!-- Coffee cup on table -->
+  <div class="table-item" style="left:24%;" id="coffee-p2" onclick="coffeeP2Click(event)">
+    <svg width="44" height="52" viewBox="0 0 44 52" fill="none">
+      <ellipse cx="22" cy="48" rx="20" ry="4.5" fill="#8B6840" opacity="0.65"/>
+      <path d="M5,22 Q5,46 22,46 Q39,46 39,22 Z" fill="#6B4226"/>
+      <ellipse cx="22" cy="22" rx="17" ry="5" fill="#8B5E3C"/>
+      <ellipse cx="22" cy="22" rx="13" ry="3.2" fill="#3D1C08"/>
+      <path d="M39,27 Q50,27 50,37 Q50,47 39,43" stroke="#5A3520" fill="none" stroke-width="4" stroke-linecap="round"/>
+      <path d="M14,19 Q16,10 13,4" stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round"
+            style="animation:steam-waft-1 2.8s ease-in-out 0s infinite;transform-origin:14px 19px;"/>
+      <path d="M22,18 Q24,9 22,3"  stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round"
+            style="animation:steam-waft-2 2.8s ease-in-out 0.7s infinite;transform-origin:22px 18px;"/>
+      <path d="M30,19 Q28,10 31,4" stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round"
+            style="animation:steam-waft-3 2.8s ease-in-out 1.4s infinite;transform-origin:30px 19px;"/>
+    </svg>
+  </div>
+
+  <!-- Lavender on table -->
+  <div class="table-item" style="left:72%;" onclick="lavP2Click(event)" style="animation:lavender-sway 4.5s ease-in-out infinite;">
+    <svg width="30" height="52" viewBox="0 0 30 52" fill="none">
+      <path d="M15,50 L15,16" stroke="#9CAF88" stroke-width="1.4"/>
+      <path d="M15,35 Q9,27 7,23" stroke="#9CAF88" stroke-width="1.1"/>
+      <path d="M15,31 Q21,23 23,19" stroke="#9CAF88" stroke-width="1.1"/>
+      <ellipse cx="7" cy="21" rx="3" ry="4.5" fill="#C9B8E8" transform="rotate(-20 7 21)"/>
+      <ellipse cx="23" cy="17" rx="3" ry="4.5" fill="#B8A8D8" transform="rotate(20 23 17)"/>
+      <ellipse cx="15" cy="10" rx="2.5" ry="5" fill="#C9B8E8"/>
+      <ellipse cx="11" cy="7" rx="2" ry="3.8" fill="#D8C8F0" transform="rotate(-12 11 7)"/>
+      <ellipse cx="19" cy="7" rx="2" ry="3.8" fill="#B8A8D8" transform="rotate(12 19 7)"/>
+      <ellipse cx="15" cy="3" rx="1.8" ry="3" fill="#C9B8E8"/>
+    </svg>
+  </div>
+
+  <!-- Sleeping cat on table corner -->
+  <div class="table-cat" id="cat-p2" onclick="catP2Click(event)">
+    <svg width="88" height="56" viewBox="0 0 88 56" fill="none">
+      <ellipse cx="52" cy="40" rx="32" ry="15" fill="#C4A882" style="animation:cat-breathe 3.5s ease-in-out infinite;transform-origin:52px 40px;"/>
+      <circle cx="20" cy="32" r="13" fill="#C4A882"/>
+      <polygon points="10,19 16,11 22,19" fill="#C4A882"/>
+      <polygon points="20,19 26,11 32,19" fill="#C4A882"/>
+      <polygon points="11,18 15,13 21,18" fill="#E8C4B8" opacity="0.6"/>
+      <polygon points="21,18 25,13 31,18" fill="#E8C4B8" opacity="0.6"/>
+      <path d="M12,32 Q16,28 20,32" stroke="#5C4A38" fill="none" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M20,32 Q24,28 28,32" stroke="#5C4A38" fill="none" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="20" cy="36" r="1.5" fill="#E8A4A4"/>
+      <path d="M80,45 Q88,24 74,28 Q66,31 70,40" stroke="#C4A882" fill="none" stroke-width="6" stroke-linecap="round"
+            style="animation:cat-tail 4.5s ease-in-out infinite;transform-origin:80px 45px;"/>
+      <ellipse cx="36" cy="52" rx="8" ry="3.5" fill="#B8947A" opacity="0.8"/>
+      <ellipse cx="52" cy="54" rx="8" ry="3"   fill="#B8947A" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <!-- Sticky notes -->
+  <div class="sticky-note-p2" style="left:8%;top:18vh;--rotation:rotate(-2deg);transform:rotate(-2deg);width:130px;">
+    <div class="placeholder-zone" style="padding:10px;min-height:50px;font-size:12px;">
+      <span class="pz-label">hidden note 1</span>
+      <span style="font-size:11px;">a tiny message for her (you write this)</span>
+    </div>
+  </div>
+
+  <div class="sticky-note-p2" style="right:26%;top:14vh;--rotation:rotate(1.5deg);transform:rotate(1.5deg);width:140px;background:#F0EBFA;">
+    <div class="placeholder-zone" style="padding:10px;min-height:50px;font-size:12px;background:transparent;border-color:var(--lavender-dark);">
+      <span class="pz-label">hidden note 2</span>
+      <span style="font-size:11px;">another little secret note</span>
+    </div>
+  </div>
+
+  <!-- A birthday banner (subtle, not loud) -->
+  <div style="position:absolute;top:4vh;left:50%;transform:translateX(-50%);z-index:6;text-align:center;pointer-events:none;">
+    <div style="font-family:var(--font-display);font-size:clamp(20px,3.5vw,38px);color:var(--coffee);opacity:0;animation:slide-up 0.8s ease 0.5s forwards;letter-spacing:2px;text-shadow:0 2px 12px rgba(107,66,38,0.15);">
+      tonight is yours
+    </div>
+    <div style="font-family:var(--font-hand);font-size:clamp(14px,2vw,20px);color:var(--lavender-dark);opacity:0;animation:fade-in 0.8s ease 1.2s forwards;margin-top:4px;">
+      every candle, every light — all for u ✦
+    </div>
+  </div>
+
+</div><!-- /scene -->
+
+<!-- Blow hint -->
+<div class="blow-hint" id="blow-hint">click the cake to blow out the candles 🎂</div>
+
+<!-- Celebrate message -->
+<div class="celebrate-text" id="celebrate-text">
+  make a wish, raaani
+  <span class="celebrate-sub">♡ all 21 candles, all for u ♡</span>
+</div>
+
+<!-- Continue button -->
+<div class="page-continue" id="page-continue">
+  <button style="background:none;border:none;cursor:none;display:flex;flex-direction:column;align-items:center;gap:8px;"
+          onclick="goTo('page3.html')">
+    <div style="font-family:var(--font-hand);font-size:13px;color:var(--text-muted);margin-bottom:4px;">there's more waiting...</div>
+    <div style="background:var(--coffee);color:var(--cream);border:none;padding:12px 30px;border-radius:30px;font-family:var(--font-hand);font-size:17px;cursor:none;box-shadow:var(--shadow-warm);transition:all 0.3s var(--ease-spring);"
+         onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+      open our scrapbook ✦
+    </div>
+  </button>
+</div>
+
+<!-- Music -->
+<div class="music-invite" id="music-invite">
+  <div class="music-invite-card" onclick="Audio$.play()">
+    <p>✦ tap to play our song...</p>
+    <small>Wada Karo · aa gale lag jaa</small>
+  </div>
+</div>
+
+<div class="music-player" id="music-player">
+  <div class="music-player-inner">
+    <div class="vinyl-disc-wrap" id="vinyl"></div>
+    <button id="music-toggle" class="music-btn">▶</button>
+    <span class="music-song-name">Wada Karo...</span>
+  </div>
+</div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── FAIRY LIGHTS ──────────────────────────────────────── */
+(function() {
+  const str   = document.getElementById('fairy-string');
+  const colors = ['#FFD580','#FFB3C6','#C9B8E8','#A8D8A8','#FFD580'];
+  const count = 28;
+  for (let i = 0; i < count; i++) {
+    const l = document.createElement('div');
+    l.className = 'fairy-light';
+    l.style.cssText = `
+      left:${(i / (count-1)) * 96 + 2}%;
+      background:${colors[i % colors.length]};
+      --dur:${1.8 + Math.random()*2}s;
+      --delay:${Math.random()*2}s;
+      box-shadow:0 0 6px ${colors[i % colors.length]};
+    `;
+    str.appendChild(l);
+  }
+})();
+
+/* ── WINDOW STARS ──────────────────────────────────────── */
+(function() {
+  const c = document.getElementById('win-stars');
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-win';
+    const sz = Math.random()*1.5+0.8;
+    s.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*92}%;top:${Math.random()*80}%;
+      --dur:${2+Math.random()*3}s;--delay:${Math.random()*3}s;
+    `;
+    c.appendChild(s);
+  }
+})();
+
+/* ── RENDER 21 CANDLES ON CAKE ─────────────────────────── */
+const CANDLE_POSITIONS = [];
+const cg = document.getElementById('candles-group');
+
+// Distribute 21 candles across 3 rows on the cake
+const rows = [
+  { y: 48, xs: [75,90,105,120,135,150] },          // top tier: 6
+  { y: 76, xs: [55,70,85,100,115,130,145,165] },   // mid tier: 8
+  { y: 116, xs: [40,58,76,94,112,130,148,166,184] } // bot tier: 9 (actually 7 to keep 21)
+];
+
+// We'll do: 6 + 7 + 8 = 21
+const dist = [
+  { y:48,  xs:[78,91,104,117,130,143] },
+  { y:77,  xs:[58,72,86,100,114,128,142] },
+  { y:118, xs:[45,62,79,96,113,130,147,162] }
+];
+
+let candleIndex = 0;
+const totalCandles = 21;
+let blownCount = 0;
+const candleEls = [];
+
+dist.forEach(row => {
+  row.xs.forEach(x => {
+    if (candleIndex >= totalCandles) return;
+    const color = ['#E8B4B8','#C9B8E8','#9CAF88','#D4B896','#F5D5D8'][candleIndex % 5];
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.dataset.ci = candleIndex;
+    g.innerHTML = `
+      <rect x="${x-2}" y="${row.y-14}" width="4" height="14" rx="1" fill="${color}"/>
+      <line x1="${x}" y1="${row.y-14}" x2="${x}" y2="${row.y-18}" stroke="#5C4A38" stroke-width="0.8"/>
+      <g class="cake-flame" style="--dur:${1.5+Math.random()*0.6}s;--delay:${Math.random()*0.8}s;transform-origin:${x}px ${row.y-18}px;">
+        <ellipse cx="${x}" cy="${row.y-21}" rx="2.2" ry="3.5" fill="#F5A623" opacity="0.95"/>
+        <ellipse cx="${x}" cy="${row.y-20}" rx="1.3" ry="2.2" fill="#FFD060"/>
+        <ellipse cx="${x}" cy="${row.y-19}" rx="0.7" ry="1.2" fill="white" opacity="0.8"/>
+      </g>
+    `;
+    cg.appendChild(g);
+    candleEls.push(g);
+    CANDLE_POSITIONS.push({ x, y: row.y, index: candleIndex });
+    candleIndex++;
+  });
+});
+
+/* ── BLOW OUT CANDLES ──────────────────────────────────── */
+let blowInterval = null;
+let blowRunning  = false;
+
+function blowCandle() {
+  if (blowRunning) return;
+  blowRunning = true;
+
+  // Blow out candles one at a time, each 180ms
+  let i = 0;
+  const blowNext = () => {
+    if (i >= candleEls.length) {
+      allBlown();
+      return;
+    }
+    const el = candleEls[i];
+    const flame = el.querySelector('.cake-flame');
+    if (flame) {
+      flame.style.animation = 'none';
+      flame.style.opacity   = '0';
+      flame.style.transition = 'opacity 0.35s ease';
+    }
+    // Small particle burst at candle position
+    const pos = CANDLE_POSITIONS[i];
+    const cakeRect = document.getElementById('cake-wrap').getBoundingClientRect();
+    const scale = cakeRect.width / 220;
+    burst(
+      cakeRect.left + pos.x * scale,
+      cakeRect.top  + pos.y * scale - 20 * scale,
+      { count: 6, colors: ['#FFD580','#E8B4B8','#C9B8E8'] }
+    );
+    i++;
+    setTimeout(blowNext, 160);
+  };
+  blowNext();
+}
+
+function allBlown() {
+  blownCount = totalCandles;
+
+  // Petals!
+  launchPetals(30, '#E8B4B8');
+  setTimeout(() => launchPetals(20, '#C9B8E8'), 600);
+  setTimeout(() => launchPetals(15, '#FFD580'), 1100);
+
+  // Celebrate text
+  setTimeout(() => {
+    const ct = document.getElementById('celebrate-text');
+    ct.classList.add('show');
+    setTimeout(() => {
+      ct.style.opacity = '0';
+      ct.style.transition = 'opacity 1.5s ease';
+    }, 3500);
+  }, 500);
+
+  // Show continue button
+  setTimeout(() => {
+    document.getElementById('page-continue').classList.add('show');
+    document.getElementById('blow-hint').style.opacity = '0';
+  }, 2000);
+
+  // Hide cake label
+  document.getElementById('cake-label').style.opacity = '0';
+
+  Store.set({ candlesBlown: true });
+  Store.pageComplete(2);
+}
+
+/* ── COFFEE CLICK P2 ───────────────────────────────────── */
+function coffeeP2Click(e) {
+  launchHearts(e.clientX, e.clientY - 20, 5);
+  secretMessage('same coffee, different city ☕', e.clientX, e.clientY - 60);
+}
+
+/* ── CAT CLICK P2 ──────────────────────────────────────── */
+let catP2clicks = 0;
+function catP2Click(e) {
+  catP2clicks++;
+  const msgs = [
+    'birthday wishes from the fluffiest member 🐾',
+    'she said "meow" which means happy birthday 🐱',
+    'cats know everything. they approve. ✦'
+  ];
+  secretMessage(msgs[catP2clicks % msgs.length], e.clientX, e.clientY - 40);
+}
+
+/* ── LAVENDER CLICK P2 ─────────────────────────────────── */
+function lavP2Click(e) {
+  launchPetals(10, '#C9B8E8');
+  secretMessage('her favourite, always ✿', e.clientX, e.clientY - 40);
+}
+
+/* Check if we should show continue already (returning visitor) */
+if (Store.get().candlesBlown) {
+  setTimeout(() => document.getElementById('page-continue').classList.add('show'), 1000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>one last thing... ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: #0E0804; }
+
+/* ── QUIET SCENE ─────────────────────────────────────────── */
+.quiet-scene {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg, #120A04 0%, #1A0E08 40%, #2E1A0A 40.1%, #241408 100%);
+}
+
+/* Very faint candle glow — almost out */
+.quiet-scene::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 35% 30% at 30% 50%, rgba(232,160,48,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* First light of dawn — extremely subtle at the horizon */
+.quiet-scene::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, transparent 60%, rgba(255,160,60,0.04) 80%, rgba(255,180,80,0.08) 100%);
+  pointer-events: none;
+  opacity: 0; transition: opacity 6s ease;
+}
+.quiet-scene.dawn-rising::after { opacity: 1; }
+
+/* Desk objects */
+.desk { position: absolute; bottom: 0; inset: auto 0 0; height: 32%;
+  background: linear-gradient(180deg,#3D2010,#2E1808); }
+.desk-top { position: absolute; bottom: 32%; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg,#9E7A52,#C4956A 30%,#C4956A 70%,#9E7A52); }
+
+/* ── OBJECTS ON DESK (callbacks from earlier pages) ───── */
+/* Same cat, same scrapbook, same envelope — journey's end */
+.desk-obj { position: absolute; bottom: 32%; transform: translateY(-100%); z-index: 12; }
+
+/* Candle — almost out, tiny flame */
+.last-candle { position: absolute; left: 20%; bottom: 32%; transform: translateY(-100%); z-index: 12; }
+
+/* Empty coffee mug */
+.empty-mug { position: absolute; left: 32%; bottom: 32%; transform: translateY(-100%); z-index: 12; cursor: none; }
+
+/* Closed scrapbook */
+.closed-scrap { position: absolute; right: 22%; bottom: 32%; transform: translateY(-100%); z-index: 12; cursor: none; }
+
+/* Same cat — sleeping beside scrapbook */
+.end-cat { position: absolute; right: 8%; bottom: 32%; transform: translateY(-80%); z-index: 12;
+  animation: cat-breathe 3.8s ease-in-out infinite; cursor: none; }
+
+/* Lavender (same one from page 1) */
+.end-lav { position: absolute; left: 44%; bottom: 32.5%; transform: translateY(-100%); z-index: 12;
+  animation: lavender-sway 5s ease-in-out infinite; }
+
+/* ── STARS (still visible, early morning) ─────────────── */
+.star-field { position: absolute; inset: 0 0 32% 0; overflow: hidden; pointer-events: none; z-index: 2; }
+.star-p9 { position: absolute; background: white; border-radius: 50%;
+  animation: star-twinkle var(--dur,3s) ease-in-out var(--delay,0s) infinite; }
+
+/* ── PAPER AIRPLANE ──────────────────────────────────────── */
+.plane-wrap {
+  position: fixed; z-index: 30; pointer-events: auto;
+  transform: translate(-200px, 50vh);
+  opacity: 0;
+}
+
+.plane-wrap.flying {
+  animation: plane-fly 3.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+
+@keyframes plane-fly {
+  0%   { transform: translate(-200px, 60vh) rotate(15deg); opacity: 0; }
+  15%  { opacity: 1; }
+  50%  { transform: translate(38vw, 32vh) rotate(-5deg); opacity: 1; }
+  75%  { transform: translate(48vw, 38vh) rotate(8deg); opacity: 1; }
+  100% { transform: translate(calc(50vw - 60px), 42vh) rotate(0deg); opacity: 1; }
+}
+
+.paper-plane-svg { filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.3)); }
+
+/* Note beside plane */
+.plane-note {
+  position: fixed; top: 48vh; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-hand); font-size: clamp(14px,2vw,18px);
+  color: rgba(245,237,216,0.8); text-align: center; z-index: 29;
+  opacity: 0; transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.plane-note.show { opacity: 1; }
+.plane-note::before { content: '✦ '; opacity: 0.6; }
+.plane-note::after  { content: ' ✦'; opacity: 0.6; }
+
+/* ── UNFOLDED LETTER ────────────────────────────────────── */
+.unfolded-letter {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scaleY(0.1);
+  opacity: 0;
+  z-index: 40;
+  width: min(90vw, 540px);
+  transition: all 0s;
+}
+
+.unfolded-letter.open {
+  animation: letter-unfold-p9 0.8s var(--ease-spring) forwards;
+}
+
+@keyframes letter-unfold-p9 {
+  from { transform: translate(-50%,-50%) scaleY(0.1); opacity:0; }
+  to   { transform: translate(-50%,-50%) scaleY(1);   opacity:1; }
+}
+
+.ul-paper {
+  background: linear-gradient(160deg, #FAF3E0, #F5EDD8);
+  border: 1px solid rgba(196,168,98,0.4);
+  border-radius: 6px;
+  padding: clamp(24px,4vw,44px) clamp(24px,4vw,48px);
+  box-shadow: 0 16px 60px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  position: relative;
+  font-family: var(--font-body); color: var(--text-dark);
+  max-height: 75vh; overflow-y: auto;
+}
+.ul-paper::before {
+  content: ''; position: absolute; inset: 0; border-radius: 6px;
+  background-image: repeating-linear-gradient(
+    180deg, transparent, transparent 32px,
+    rgba(107,66,38,0.04) 32px, rgba(107,66,38,0.04) 33px
+  );
+  pointer-events: none;
+}
+
+.ul-heading {
+  font-family: var(--font-display); font-size: clamp(18px,2.5vw,26px);
+  color: var(--coffee); font-style: italic; margin-bottom: 16px;
+  text-align: center; position: relative; z-index: 2;
+}
+.ul-heading::after {
+  content: ''; display: block; width: 60px; height: 1px;
+  background: rgba(196,168,98,0.5); margin: 10px auto 0;
+}
+
+.ul-body { position: relative; z-index: 2; min-height: 60px; }
+.ul-body-intro {
+  font-family: var(--font-sub); font-style: italic;
+  font-size: clamp(16px,1.8vw,19px); line-height: 2;
+  color: var(--text-dark); margin-bottom: 16px;
+}
+
+/* Promise/note sections inside letter */
+.ul-section {
+  margin: 14px 0;
+  padding: 12px 16px;
+  background: rgba(249,242,228,0.7);
+  border-left: 3px solid var(--lavender);
+  border-radius: 0 4px 4px 0;
+  position: relative; z-index: 2;
+}
+.ul-section-label {
+  font-family: var(--font-hand); font-size: 11px;
+  color: var(--lavender-dark); margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.ul-section-ph {
+  font-family: var(--font-hand); font-size: 12.5px;
+  color: var(--gold-dark); line-height: 1.7;
+  background: rgba(255,249,220,0.8); border: 1px dashed var(--gold);
+  border-radius: 3px; padding: 8px 10px;
+}
+
+/* Sunrise note at bottom */
+.ul-sunrise {
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px dashed rgba(196,168,98,0.3);
+  text-align: center; position: relative; z-index: 2;
+  font-family: var(--font-hand); font-size: clamp(13px,1.6vw,16px);
+  color: var(--coffee); line-height: 1.8;
+}
+
+/* Continue (sunrise through window) */
+.p9-continue {
+  position: fixed; bottom: 28px; right: 36px;
+  z-index: 200; opacity: 0; transition: opacity 0.8s ease;
+}
+.p9-continue.show { opacity: 1; }
+
+/* Scrollbar */
+.ul-paper::-webkit-scrollbar { width: 3px; }
+.ul-paper::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* Close letter button */
+.ul-close {
+  position: absolute; top: 12px; right: 14px; z-index: 50;
+  background: none; border: none; cursor: none;
+  font-size: 18px; color: var(--text-muted);
+  transition: color 0.2s;
+}
+.ul-close:hover { color: var(--coffee); }
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="quiet-scene" id="quiet-scene">
+  <!-- Stars -->
+  <div class="star-field" id="star-field"></div>
+
+  <!-- Desk -->
+  <div class="desk"></div>
+  <div class="desk-top"></div>
+
+  <!-- Objects (callbacks from the journey) -->
+
+  <!-- Almost-out candle -->
+  <div class="last-candle">
+    <svg width="20" height="42" viewBox="0 0 20 42" fill="none">
+      <rect x="5" y="18" width="10" height="22" rx="2" fill="#E8E0CC"/>
+      <path d="M5,24 Q3,27 4,34 L5,34z" fill="#D8D0BC"/>
+      <line x1="10" y1="18" x2="10" y2="13" stroke="#5C4A38" stroke-width="0.9"/>
+      <g style="animation:flame-dance 2.8s ease-in-out infinite;transform-origin:10px 11px;">
+        <ellipse cx="10" cy="11" rx="3" ry="5" fill="#F5A623" opacity="0.7"/>
+        <ellipse cx="10" cy="13" rx="1.8" ry="3" fill="#FFD060" opacity="0.8"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Empty coffee mug -->
+  <div class="empty-mug" onclick="mugClick(event)">
+    <svg width="34" height="36" viewBox="0 0 34 36" fill="none">
+      <ellipse cx="17" cy="33" rx="15" ry="3.5" fill="#8B6840" opacity="0.5"/>
+      <path d="M4,14 Q4,30 17,30 Q30,30 30,14 Z" fill="#6B4226"/>
+      <ellipse cx="17" cy="14" rx="13" ry="4" fill="#8B5E3C"/>
+      <ellipse cx="17" cy="14" rx="10" ry="2.8" fill="#3D1C08"/>
+      <path d="M30,18 Q38,18 38,25 Q38,32 30,29" stroke="#5A3520" fill="none" stroke-width="3" stroke-linecap="round"/>
+      <!-- barely any steam -->
+      <path d="M17,12 Q18,8 17,5" stroke="#C9B8E8" fill="none" stroke-width="1.2" stroke-linecap="round"
+            style="animation:steam-waft-2 4s ease-in-out infinite;transform-origin:17px 12px;opacity:0.25;"/>
+    </svg>
+  </div>
+
+  <!-- Closed scrapbook -->
+  <div class="closed-scrap" onclick="scrapClick(event)">
+    <svg width="80" height="58" viewBox="0 0 80 58" fill="none">
+      <rect x="4" y="4" width="72" height="50" rx="4" fill="#D4B896"/>
+      <rect x="4" y="4" width="10" height="50" rx="2" fill="#C4A882"/>
+      <rect x="4" y="4" width="10" height="50" rx="2" fill="none" stroke="#B8947A" stroke-width="0.5"/>
+      <!-- Page layers -->
+      <rect x="16" y="6"  width="58" height="46" rx="3" fill="#EDE0C8"/>
+      <rect x="18" y="8"  width="54" height="44" rx="2" fill="#F5EDD8"/>
+      <!-- Little illustration on cover -->
+      <circle cx="47" cy="28" r="12" fill="none" stroke="rgba(196,168,98,0.4)" stroke-width="1"/>
+      <text x="47" y="32" text-anchor="middle" font-family="Dancing Script" font-size="11" fill="rgba(107,66,38,0.5)">us ♡</text>
+      <!-- Bookmark ribbon -->
+      <rect x="60" y="0" width="6" height="20" fill="#C9B8E8" rx="1"/>
+      <polygon points="57,20 66,20 63,26" fill="#C9B8E8"/>
+    </svg>
+  </div>
+
+  <!-- End cat (same cat — sleeping beside scrapbook) -->
+  <div class="end-cat" id="end-cat" onclick="endCatClick(event)">
+    <svg width="76" height="50" viewBox="0 0 76 50" fill="none">
+      <ellipse cx="46" cy="36" rx="26" ry="12" fill="#C4A882" style="animation:cat-breathe 3.8s ease-in-out infinite;transform-origin:46px 36px;"/>
+      <circle cx="18" cy="28" r="12" fill="#C4A882"/>
+      <polygon points="9,16 14,8 20,16" fill="#C4A882"/>
+      <polygon points="18,16 24,8 30,16" fill="#C4A882"/>
+      <polygon points="10,15 13,10 19,15" fill="#E8C4B8" opacity="0.6"/>
+      <polygon points="19,15 22,10 28,15" fill="#E8C4B8" opacity="0.6"/>
+      <path d="M10,28 Q14,24 18,28" stroke="#5C4A38" fill="none" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M18,28 Q22,24 26,28" stroke="#5C4A38" fill="none" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="18" cy="32" r="1.3" fill="#E8A4A4"/>
+      <path d="M68,38 Q74,20 62,24 Q56,27 59,34" stroke="#C4A882" fill="none" stroke-width="5.5" stroke-linecap="round" style="animation:cat-tail 5s ease-in-out infinite;transform-origin:68px 38px;"/>
+      <ellipse cx="32" cy="46" rx="6" ry="2.8" fill="#B8947A" opacity="0.8"/>
+      <ellipse cx="46" cy="48" rx="6" ry="2.5" fill="#B8947A" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <!-- Lavender -->
+  <div class="end-lav">
+    <svg width="24" height="44" viewBox="0 0 24 44" fill="none">
+      <path d="M12,42 L12,12" stroke="#9CAF88" stroke-width="1.2"/>
+      <ellipse cx="5"  cy="20" rx="2.2" ry="3.8" fill="#C9B8E8" transform="rotate(-20 5 20)"/>
+      <ellipse cx="19" cy="16" rx="2.2" ry="3.8" fill="#B8A8D8" transform="rotate(20 19 16)"/>
+      <ellipse cx="12" cy="9"  rx="2"   ry="4"   fill="#C9B8E8"/>
+      <ellipse cx="8"  cy="6"  rx="1.5" ry="3"   fill="#D8C8F0" transform="rotate(-12 8 6)"/>
+      <ellipse cx="16" cy="6"  rx="1.5" ry="3"   fill="#B8A8D8" transform="rotate(12 16 6)"/>
+    </svg>
+  </div>
+
+</div><!-- /quiet-scene -->
+
+<!-- ═══ PAPER AIRPLANE ═══ -->
+<div class="plane-wrap" id="plane-wrap">
+  <svg class="paper-plane-svg" width="120" height="70" viewBox="0 0 120 70" fill="none">
+    <!-- Plane body -->
+    <path d="M0,35 L120,0 L80,35 L120,70 Z" fill="#F5EDD8" stroke="rgba(196,168,98,0.4)" stroke-width="0.8"/>
+    <path d="M0,35 L80,35 L120,0 Z" fill="#EDE0C8" stroke="rgba(196,168,98,0.3)" stroke-width="0.5"/>
+    <!-- Fold line -->
+    <line x1="0" y1="35" x2="80" y2="35" stroke="rgba(196,168,98,0.5)" stroke-width="0.8" stroke-dasharray="4,3"/>
+    <!-- Tiny heart on wing -->
+    <text x="44" y="22" font-size="10" fill="rgba(232,180,184,0.7)">♡</text>
+  </svg>
+</div>
+
+<!-- Plane note -->
+<div class="plane-note" id="plane-note">one last thing...</div>
+
+<!-- ═══ UNFOLDED LETTER ═══ -->
+<div class="unfolded-letter" id="unfolded-letter">
+  <div class="ul-paper">
+    <button class="ul-close" onclick="closeLetter()">✕</button>
+
+    <div class="ul-heading">oh... n one more thing ✦</div>
+
+    <!-- Animated opening text -->
+    <div class="ul-body">
+      <div class="ul-body-intro" id="ul-intro"></div>
+
+      <!-- Placeholder sections — replace with your words -->
+      <div class="ul-section">
+        <div class="ul-section-label">how proud i am of u ✦</div>
+        <div class="ul-section-ph">
+          [ write something here about how proud u r of her — what she's accomplished, who she's become, how far she's come ]
+        </div>
+      </div>
+
+      <div class="ul-section">
+        <div class="ul-section-label">how much she's grown ✦</div>
+        <div class="ul-section-ph">
+          [ something about the ways u've watched her grow — in her own quiet, remarkable ways ]
+        </div>
+      </div>
+
+      <div class="ul-section">
+        <div class="ul-section-label">how much i miss her because of internships ✦</div>
+        <div class="ul-section-ph">
+          [ write about missing her rn — being in different cities, what u miss most, what u can't wait to do when it's over ]
+        </div>
+      </div>
+
+      <div class="ul-section">
+        <div class="ul-section-label">how badly i want to hug her ✦</div>
+        <div class="ul-section-ph">
+          [ the hug u're waiting to give her. say it exactly how u'd say it to her face. ]
+        </div>
+      </div>
+
+      <div class="ul-section">
+        <div class="ul-section-label">how beautiful she is ✦</div>
+        <div class="ul-section-ph">
+          [ tell her — even when she doesn't believe it. especially then. ur words, not mine. ]
+        </div>
+      </div>
+
+      <div class="ul-section">
+        <div class="ul-section-label">how safe she makes me feel ✦</div>
+        <div class="ul-section-ph">
+          [ write about this — the specific kind of safe she is. this one will hit her differently. ]
+        </div>
+      </div>
+
+      <div class="ul-sunrise">
+        look outside.<br>
+        <span style="color:var(--lavender-dark);">the sun is almost here.</span><br>
+        <span style="font-size:clamp(12px,1.4vw,14px);color:var(--text-muted);margin-top:6px;display:block;">i'm always with u. even when i'm not there. ♡</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Continue -->
+<div class="p9-continue" id="p9-continue">
+  <button style="background:none;border:none;cursor:none;" onclick="goTo('page10.html')">
+    <div style="font-family:var(--font-hand);font-size:12px;color:rgba(255,240,200,0.5);margin-bottom:6px;text-align:right;">follow the light...</div>
+    <div style="background:rgba(232,160,48,0.2);border:1px solid rgba(232,160,48,0.4);color:rgba(255,240,200,0.9);padding:12px 26px;border-radius:30px;font-family:var(--font-hand);font-size:16px;box-shadow:0 4px 20px rgba(232,160,48,0.15);transition:all 0.3s;"
+         onmouseover="this.style.background='rgba(232,160,48,0.3)'" onmouseout="this.style.background='rgba(232,160,48,0.2)'">
+      come home ✦
+    </div>
+  </button>
+</div>
+
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── STARS ──────────────────────────────────────────────── */
+(function(){
+  const f = document.getElementById('star-field');
+  for(let i=0;i<55;i++){
+    const s = document.createElement('div');
+    s.className='star-p9';
+    const sz = Math.random()*2+0.6;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*4}s;`;
+    f.appendChild(s);
+  }
+})();
+
+/* ── PLANE SEQUENCE ─────────────────────────────────────── */
+let planeSequenceDone = false;
+
+function startPlaneSequence() {
+  if (planeSequenceDone) return;
+  planeSequenceDone = true;
+
+  const plane = document.getElementById('plane-wrap');
+  const note  = document.getElementById('plane-note');
+
+  // 1. Wait for silence (3 seconds)
+  setTimeout(() => {
+    // 2. Plane flies in
+    plane.style.opacity = '1';
+    plane.classList.add('flying');
+
+    // 3. Plane note appears after plane lands
+    setTimeout(() => {
+      note.classList.add('show');
+
+      // 4. Plane waits, then becomes clickable
+      setTimeout(() => {
+        plane.style.cursor = 'none';
+        plane.style.pointerEvents = 'auto';
+        plane.style.transition = 'filter 0.3s ease';
+        plane.addEventListener('click', unfoldPlane);
+        plane.addEventListener('mouseover', () => {
+          plane.style.filter = 'drop-shadow(0 0 12px rgba(196,168,98,0.6))';
+        });
+        plane.addEventListener('mouseout', () => {
+          plane.style.filter = 'none';
+        });
+      }, 1000);
+    }, 3600);
+  }, 3000);
+}
+
+function unfoldPlane() {
+  const plane  = document.getElementById('plane-wrap');
+  const note   = document.getElementById('plane-note');
+  const letter = document.getElementById('unfolded-letter');
+
+  // Hide plane and note
+  plane.style.transition = 'opacity 0.4s ease';
+  plane.style.opacity    = '0';
+  note.classList.remove('show');
+
+  // Dawn rising
+  setTimeout(() => {
+    document.getElementById('quiet-scene').classList.add('dawn-rising');
+  }, 300);
+
+  // Unfold letter
+  setTimeout(() => {
+    plane.style.display = 'none';
+    letter.classList.add('open');
+
+    // Write intro text
+    const intro = document.getElementById('ul-intro');
+    const text  = `i wasn't going to say anything more.\n\nbut then i thought about u reading this.\nand i had one more thing.`;
+    writeText(intro, text, {
+      speed: 52, variance: 28, delay: 400,
+      onDone: () => {
+        setTimeout(() => {
+          document.getElementById('p9-continue').classList.add('show');
+          Store.pageComplete(9);
+        }, 1000);
+      }
+    });
+  }, 600);
+}
+
+/* ── INTERACTIVE OBJECTS ────────────────────────────────── */
+function mugClick(e) {
+  secretMessage('the coffee ran out. the night didn\'t. ☕', e.clientX, e.clientY-40, {color:'#FAF3E0'});
+}
+function scrapClick(e) {
+  secretMessage('every page of this is u ♡', e.clientX, e.clientY-40, {color:'#FAF3E0'});
+}
+
+let endCatClicks = 0;
+function endCatClick(e) {
+  endCatClicks++;
+  if (endCatClicks === 1) {
+    secretMessage('still here. always here. 🐾', e.clientX, e.clientY-40);
+  } else {
+    secretMessage('pspspspss ♡', e.clientX, e.clientY-40);
+    launchHearts(e.clientX, e.clientY, 4);
+  }
+}
+
+function closeLetter() {
+  const l = document.getElementById('unfolded-letter');
+  l.style.opacity = '0';
+  l.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => l.style.display = 'none', 400);
+}
+
+/* ── 60-SECOND EASTER EGG (cat wakes up) ─────────────── */
+setTimeout(() => {
+  const cat = document.getElementById('end-cat');
+  if (!cat) return;
+  cat.style.animation = 'none';
+
+  // Cat "wakes" — eyes open animation
+  cat.style.transition = 'transform 0.4s var(--ease-spring)';
+  cat.style.transform  = 'translateY(-88%)';
+
+  secretMessage('🐾 she woke up. looked at the sunrise. went back to sleep.', window.innerWidth/2, window.innerHeight*0.4, {
+    color:'#FAF3E0', duration:3500
+  });
+
+  setTimeout(() => {
+    cat.style.transform = 'translateY(-80%)';
+    cat.style.animation = 'cat-breathe 3.8s ease-in-out infinite';
+  }, 2000);
+}, 60000);
+
+/* ── START SEQUENCE ─────────────────────────────────────── */
+startPlaneSequence();
+</script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>our little world ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body{overflow:hidden;background:#1A0E06;}
+.world-scene{position:fixed;inset:0;background:linear-gradient(180deg,#D4C4A0 0%,#C8B890 44%,#7A5530 44.1%,#6B4A28 100%);}
+.world-scene::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 60% 55% at 42% 40%,rgba(232,160,48,0.14),transparent 65%);pointer-events:none;}
+.wall{position:absolute;inset:0 0 28% 0;background:linear-gradient(180deg,#D4C4A0,#C8B890);}
+.floor{position:absolute;bottom:0;left:0;right:0;height:28%;background:linear-gradient(180deg,#7A5530,#6B4A28);}
+.floor::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 85px,rgba(0,0,0,0.04) 85px,rgba(0,0,0,0.04) 86px);}
+.tbl{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);width:84vw;max-width:1040px;height:6vh;min-height:42px;background:linear-gradient(180deg,#6B4226,#5A3820);border-radius:4px 4px 0 0;box-shadow:0 6px 24px rgba(0,0,0,0.22);z-index:10;}
+.tbl-top{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);width:84vw;max-width:1040px;height:5px;background:linear-gradient(90deg,#9E7A52,#C4956A 40%,#C4956A 60%,#9E7A52);z-index:11;}
+/* Page title */
+.p4-title{position:absolute;top:3%;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none;}
+.p4-title h1{font-family:var(--font-display);font-size:clamp(22px,3.5vw,44px);color:var(--coffee);font-style:italic;opacity:0;animation:slide-up 0.7s ease 0.3s forwards;text-shadow:1px 1px 0 rgba(255,255,255,0.35);}
+.p4-title p{font-family:var(--font-hand);font-size:clamp(14px,1.8vw,20px);color:var(--text-light);opacity:0;animation:fade-in 0.7s ease 1s forwards;margin-top:4px;}
+/* Wall photos (her solo — goddess treatment) */
+.wall-goddess{position:absolute;z-index:6;cursor:none;transition:transform 0.35s var(--ease-spring),box-shadow 0.35s ease;}
+.wall-goddess:hover{z-index:30;}
+.goddess-frame{background:#FFFEF9;padding:7px 7px 28px;box-shadow:2px 4px 18px rgba(107,66,38,0.22);transform:var(--rot,rotate(0deg));transition:transform 0.35s var(--ease-spring),box-shadow 0.35s ease;}
+.wall-goddess:hover .goddess-frame{transform:var(--rot,rotate(0deg)) scale(1.07) translateY(-10px);box-shadow:4px 10px 36px rgba(107,66,38,0.35);}
+.goddess-frame img{display:block;width:100%;height:100%;object-fit:cover;}
+.goddess-frame .g-cap{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:var(--font-hand);font-size:clamp(10px,1.2vw,13px);color:var(--text-light);padding:0 8px;}
+.goddess-frame::after{content:'';position:absolute;inset:3px;border:1px solid rgba(196,168,98,0.2);pointer-events:none;}
+/* Table items */
+.tbl-item{position:absolute;bottom:22%;transform:translateY(-100%);z-index:13;cursor:none;}
+/* Fairy lights */
+.fl-p4{position:absolute;width:7px;height:11px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;top:-1px;animation:fairy-breathe var(--dur,2.5s) ease-in-out var(--delay,0s) infinite;}
+/* Window */
+.win4{position:absolute;right:4%;top:7%;width:clamp(120px,14vw,180px);height:36vh;z-index:4;}
+.wg4{position:absolute;inset:10px;background:linear-gradient(160deg,#1A2A3A,#0D1A26);overflow:hidden;border:2px solid #C4A862;}
+.wg4::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,transparent calc(50% - 1px),#C4A862 calc(50% - 1px),#C4A862 calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(180deg,transparent calc(50% - 1px),#C4A862 calc(50% - 1px),#C4A862 calc(50% + 1px),transparent calc(50% + 1px));}
+.wo4{position:absolute;inset:0;border:9px solid #8B6840;box-shadow:inset 0 0 0 2px #A07848;}
+.wc4{position:absolute;top:-6px;bottom:-6px;width:22px;background:linear-gradient(90deg,#C9B8E8,#B8A8D8);z-index:5;}
+/* Bookshelf left */
+.bk4{position:absolute;left:2%;top:8%;width:clamp(110px,12vw,160px);height:46vh;z-index:5;}
+/* Game buttons */
+.games-bar{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:50;flex-wrap:wrap;justify-content:center;}
+.game-btn{border:none;padding:11px 22px;border-radius:24px;font-family:var(--font-hand);font-size:clamp(13px,1.6vw,17px);cursor:none;transition:all 0.25s var(--ease-spring);box-shadow:0 4px 14px rgba(0,0,0,0.2);}
+.game-btn:hover{transform:scale(1.07) translateY(-2px);}
+/* ── GAME OVERLAY ── */
+.g-overlay{position:fixed;inset:0;background:rgba(26,14,6,0.86);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity 0.4s ease;backdrop-filter:blur(5px);}
+.g-overlay.open{opacity:1;pointer-events:auto;}
+.g-box{background:var(--cream);border-radius:14px;padding:clamp(24px,4vw,40px);max-width:560px;width:92vw;box-shadow:0 24px 90px rgba(0,0,0,0.45);position:relative;text-align:center;max-height:88vh;overflow-y:auto;}
+.g-close{position:absolute;top:14px;right:18px;background:none;border:none;cursor:none;font-size:22px;color:var(--text-muted);}
+.g-close:hover{color:var(--coffee);}
+.g-title{font-family:var(--font-display);font-size:clamp(22px,3vw,30px);color:var(--coffee);font-style:italic;margin-bottom:6px;}
+.g-sub{font-family:var(--font-hand);font-size:clamp(14px,1.8vw,18px);color:var(--text-light);margin-bottom:18px;}
+/* Heart game canvas */
+#heart-canvas{border-radius:10px;background:#FAF6EE;display:block;margin:0 auto;border:1px solid var(--cream-dark);}
+.h-score{font-family:var(--font-hand);font-size:clamp(17px,2vw,22px);color:var(--coffee);margin:10px 0 0;}
+/* Win popup */
+.win-popup{position:fixed;inset:0;background:rgba(26,14,6,0.84);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.win-popup.show{display:flex;}
+.win-card{background:var(--cream);border-radius:22px;padding:clamp(32px,5vw,56px) clamp(36px,6vw,64px);text-align:center;box-shadow:0 24px 90px rgba(0,0,0,0.5);max-width:460px;width:90vw;animation:win-pop 0.65s var(--ease-spring) forwards;}
+.win-cake{font-size:clamp(56px,8vw,88px);display:block;margin-bottom:16px;animation:gentle-float 2s ease-in-out infinite;}
+.win-main{font-family:var(--font-display);font-size:clamp(26px,4vw,44px);color:var(--coffee);font-style:italic;}
+.win-age{font-family:var(--font-hand);font-size:clamp(20px,3vw,32px);color:var(--lavender-dark);margin-top:8px;}
+.win-note{font-family:var(--font-sub);font-size:clamp(15px,1.8vw,18px);color:var(--text-light);margin-top:14px;line-height:1.8;}
+.win-btn{margin-top:28px;background:var(--coffee);color:var(--cream);border:none;padding:15px 36px;border-radius:32px;font-family:var(--font-hand);font-size:clamp(16px,2vw,20px);cursor:none;box-shadow:var(--shadow-warm);transition:transform 0.3s var(--ease-spring);}
+.win-btn:hover{transform:scale(1.06);}
+/* Scratch */
+.scratch-wrap{position:relative;display:inline-block;margin:14px auto;}
+#scratch-canvas{border-radius:10px;cursor:none;display:block;}
+.scratch-reveal{position:absolute;inset:0;border-radius:10px;background:var(--warm-white);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;pointer-events:none;}
+/* Gift */
+.gift-before{text-align:center;}
+.gift-emoji{font-size:clamp(64px,10vw,96px);display:block;margin-bottom:14px;animation:gentle-float 2s ease-in-out infinite;}
+.gift-open-area{display:none;}
+.gift-photo{width:min(88%,260px);height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:8px;box-shadow:var(--shadow-paper);margin:0 auto 16px;display:block;}
+/* Continue */
+.p4-cont{position:fixed;bottom:28px;right:36px;z-index:100;opacity:0;transition:opacity 0.8s ease;}
+.p4-cont.show{opacity:1;}
+/* Sleeping cat on table */
+.tbl-cat{position:absolute;right:16%;bottom:22%;transform:translateY(-80%);z-index:14;cursor:none;animation:cat-breathe 3.2s ease-in-out infinite;}
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+<div class="world-scene">
+  <div class="wall"></div><div class="floor"></div>
+  <div class="tbl"></div><div class="tbl-top"></div>
+  <!-- Fairy lights -->
+  <div style="position:absolute;top:8%;left:4%;right:4%;height:1.5px;background:linear-gradient(90deg,transparent,rgba(196,168,98,0.25) 15%,rgba(196,168,98,0.25) 85%,transparent);z-index:4;" id="fl-str4"></div>
+  <!-- Window -->
+  <div class="win4"><div class="wg4" id="wg4-inner"></div><div class="wo4"></div>
+    <div class="wc4" style="left:-18px;border-radius:0 6px 6px 0;"></div>
+    <div class="wc4" style="right:-18px;border-radius:6px 0 0 6px;"></div>
+  </div>
+  <!-- Bookshelf left (simple) -->
+  <div class="bk4">
+    <svg viewBox="0 0 140 360" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="136" height="356" rx="3" fill="#5A3018"/>
+      <rect x="10" y="10" width="120" height="340" fill="#3E2010"/>
+      <rect x="2" y="2"  width="136" height="12" fill="#9E7848"/>
+      <rect x="2" y="118" width="136" height="12" fill="#9E7848"/>
+      <rect x="2" y="234" width="136" height="12" fill="#9E7848"/>
+      <rect x="2" y="348" width="136" height="12" fill="#9E7848"/>
+      <!-- Row 1 books -->
+      <rect x="14"  y="28"  width="14" height="82" rx="1" fill="#C9B8E8"/>
+      <rect x="30"  y="36"  width="18" height="74" rx="1" fill="#8B2E20"/>
+      <rect x="50"  y="24"  width="12" height="86" rx="1" fill="#5A8860"/>
+      <rect x="64"  y="32"  width="20" height="78" rx="1" fill="#D4B896"/>
+      <rect x="86"  y="20"  width="14" height="90" rx="1" fill="#C4A862"/>
+      <rect x="102" y="30"  width="16" height="80" rx="1" fill="#2E5878"/>
+      <rect x="120" y="26"  width="12" height="84" rx="1" fill="#7A4E7A"/>
+      <!-- Row 2 books -->
+      <rect x="14"  y="144" width="18" height="78" rx="1" fill="#4A6830"/>
+      <rect x="34"  y="136" width="14" height="86" rx="1" fill="#E8D0A0"/>
+      <rect x="50"  y="148" width="22" height="74" rx="1" fill="#8B3A2A"/>
+      <rect x="74"  y="140" width="16" height="82" rx="1" fill="#C9B8E8"/>
+      <rect x="92"  y="144" width="14" height="78" rx="1" fill="#3A3A6A"/>
+      <rect x="108" y="138" width="22" height="84" rx="1" fill="#5A7A40"/>
+      <!-- Row 3 books -->
+      <rect x="14"  y="260" width="16" height="76" rx="1" fill="#8B6234"/>
+      <rect x="32"  y="252" width="20" height="84" rx="1" fill="#C9B8E8"/>
+      <rect x="54"  y="258" width="14" height="78" rx="1" fill="#5A8860"/>
+      <rect x="70"  y="248" width="18" height="88" rx="1" fill="#D4B896"/>
+      <rect x="90"  y="256" width="22" height="80" rx="1" fill="#8B2E20"/>
+      <rect x="114" y="250" width="18" height="86" rx="1" fill="#4A6830"/>
+    </svg>
+  </div>
+  <!-- Her solo goddess photos on wall -->
+  <div class="wall-goddess" style="left:18%;top:10%;z-index:7;" onclick="goddessClick('s4',event)">
+    <div class="goddess-frame" style="width:clamp(90px,10vw,140px);height:clamp(100px,12vw,165px);--rot:rotate(-2deg);">
+      <img src="images/solo/s4_coffee_mug.jpg" alt="her" loading="lazy">
+      <div class="g-cap">☕ brown eyes, brown mug</div>
+    </div>
+  </div>
+  <div class="wall-goddess" style="left:28%;top:8%;z-index:6;" onclick="goddessClick('s5',event)">
+    <div class="goddess-frame" style="width:clamp(80px,9vw,120px);height:clamp(90px,11vw,150px);--rot:rotate(2.2deg);">
+      <img src="images/solo/s5_cat_cafe.jpg" alt="her" loading="lazy">
+      <div class="g-cap">🐾 her vibe</div>
+    </div>
+  </div>
+  <div class="wall-goddess" style="left:37%;top:10%;z-index:5;" onclick="goddessClick('s2',event)">
+    <div class="goddess-frame" style="width:clamp(75px,8vw,110px);height:clamp(85px,10vw,140px);--rot:rotate(-1.5deg);">
+      <img src="images/solo/s2_cat_street.jpg" alt="her" loading="lazy">
+      <div class="g-cap">🐱 she is everything</div>
+    </div>
+  </div>
+  <!-- Table items (candle, coffee, lavender) -->
+  <div class="tbl-item" style="left:38%;" onclick="coffeeTap(event)">
+    <svg width="44" height="52" viewBox="0 0 44 52" fill="none"><ellipse cx="22" cy="48" rx="20" ry="4.5" fill="#8B6840" opacity="0.65"/><path d="M5,22 Q5,46 22,46 Q39,46 39,22 Z" fill="#6B4226"/><ellipse cx="22" cy="22" rx="17" ry="5" fill="#8B5E3C"/><ellipse cx="22" cy="22" rx="13" ry="3.2" fill="#3D1C08"/><path d="M39,27 Q50,27 50,37 Q50,47 39,43" stroke="#5A3520" fill="none" stroke-width="4" stroke-linecap="round"/><path d="M14,19 Q16,10 13,4" stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round" style="animation:steam-waft-1 2.8s ease-in-out 0s infinite;transform-box:fill-box;transform-origin:50% 100%;"/><path d="M22,18 Q24,9 22,3" stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round" style="animation:steam-waft-2 2.8s ease-in-out 0.7s infinite;transform-box:fill-box;transform-origin:50% 100%;"/><path d="M30,19 Q28,10 31,4" stroke="#C9B8E8" fill="none" stroke-width="1.6" stroke-linecap="round" style="animation:steam-waft-3 2.8s ease-in-out 1.4s infinite;transform-box:fill-box;transform-origin:50% 100%;"/></svg>
+  </div>
+  <div class="tbl-item" style="left:50%;" onclick="candleTap(event)">
+    <svg width="26" height="76" viewBox="0 0 26 76" fill="none"><rect x="7" y="26" width="12" height="46" rx="2" fill="#F9F2E4"/><path d="M7,34 Q5,38 6,46 L7,46z" fill="#EDE0C8"/><line x1="13" y1="26" x2="13" y2="18" stroke="#5C4A38" stroke-width="1.1"/><g style="animation:flame-dance 1.7s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%;"><ellipse cx="13" cy="16" rx="4" ry="7" fill="#F5A623" opacity="0.95"/><ellipse cx="13" cy="18" rx="2.5" ry="4.5" fill="#FFD060"/><ellipse cx="13" cy="20" rx="1.2" ry="2.2" fill="white" opacity="0.85"/></g></svg>
+  </div>
+  <div class="tbl-item" style="left:58%;" onclick="lavTap(event)" style="animation:lavender-sway 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%;">
+    <svg width="28" height="50" viewBox="0 0 28 50" fill="none"><path d="M14,48 L14,14" stroke="#9CAF88" stroke-width="1.3"/><ellipse cx="6" cy="22" rx="2.5" ry="4" fill="#C9B8E8" transform="rotate(-20 6 22)"/><ellipse cx="22" cy="18" rx="2.5" ry="4" fill="#B8A8D8" transform="rotate(20 22 18)"/><ellipse cx="14" cy="10" rx="2.2" ry="4.5" fill="#C9B8E8"/><ellipse cx="10" cy="7" rx="1.8" ry="3.5" fill="#D8C8F0" transform="rotate(-12 10 7)"/><ellipse cx="18" cy="7" rx="1.8" ry="3.5" fill="#B8A8D8" transform="rotate(12 18 7)"/></svg>
+  </div>
+  <!-- Gift box on table -->
+  <div class="tbl-item" style="right:12%;" onclick="openGame('gift')" id="gift-tbl">
+    <svg width="60" height="68" viewBox="0 0 60 68" fill="none"><rect x="6" y="24" width="48" height="40" rx="3" fill="#E8B4B8"/><rect x="6" y="24" width="48" height="10" rx="3" fill="#D4909A"/><rect x="27" y="24" width="6" height="40" fill="#C4A862" opacity="0.9"/><rect x="6" y="30" width="48" height="6" fill="#C4A862" opacity="0.9"/><ellipse cx="20" cy="24" rx="10" ry="6" fill="#C4A862" transform="rotate(-20 20 24)"/><ellipse cx="40" cy="24" rx="10" ry="6" fill="#C4A862" transform="rotate(20 40 24)"/><circle cx="30" cy="24" r="5" fill="#D4B862"/><text x="30" y="14" text-anchor="middle" font-family="Dancing Script,cursive" font-size="9" fill="#C4A862">for u ♡</text></svg>
+    <div style="font-family:var(--font-hand);font-size:12px;color:var(--text-muted);text-align:center;margin-top:3px;">open me ✦</div>
+  </div>
+  <!-- Sleeping cat on table -->
+  <div class="tbl-cat" onclick="catTap(event)">
+    <svg width="86" height="54" viewBox="0 0 86 54" fill="none"><ellipse cx="50" cy="40" rx="30" ry="13" fill="#C4A882" style="animation:cat-breathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%;"/><circle cx="20" cy="30" r="12" fill="#C4A882"/><polygon points="11,19 16,10 22,19" fill="#C4A882"/><polygon points="20,19 25,10 31,19" fill="#C4A882"/><path d="M12,30 Q16,26 20,30" stroke="#5C4A38" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M20,30 Q24,26 28,30" stroke="#5C4A38" fill="none" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="34" r="1.5" fill="#E8A4A4"/><path d="M76,42 Q83,24 70,28 Q63,31 66,38" stroke="#C4A882" fill="none" stroke-width="6" stroke-linecap="round" style="animation:cat-tail 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:0% 0%;"/><ellipse cx="34" cy="50" rx="7" ry="3" fill="#B8947A" opacity="0.8"/><ellipse cx="48" cy="52" rx="7" ry="2.8" fill="#B8947A" opacity="0.8"/></svg>
+  </div>
+  <!-- Record player -->
+  <div class="tbl-item" style="left:28%;" onclick="Audio$.toggle();secretMessage(Audio$.playing?'♪ Wada Karo...':'(paused)',event.clientX,event.clientY-40);">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" id="vinyl-p4"><circle cx="28" cy="28" r="26" fill="#1A0E06"/><circle cx="28" cy="28" r="20" fill="none" stroke="#2E1E10" stroke-width="1" opacity="0.7"/><circle cx="28" cy="28" r="14" fill="none" stroke="#2E1E10" stroke-width="0.8" opacity="0.5"/><circle cx="28" cy="28" r="7" fill="#C4A862"/><circle cx="28" cy="28" r="3" fill="#1A0E06"/></svg>
+    <div style="font-family:var(--font-hand);font-size:10px;color:var(--text-muted);text-align:center;margin-top:3px;">click to play ♪</div>
+  </div>
+</div>
+<!-- Games bar -->
+<div class="games-bar">
+  <button class="game-btn" style="background:var(--rose-light);color:var(--rose-dark);border:1px solid var(--rose);" onclick="openGame('hearts')">♡ catch my heart</button>
+  <button class="game-btn" style="background:var(--gold-light);color:var(--gold-dark);border:1px solid var(--gold);" onclick="openGame('scratch')">✦ scratch card</button>
+</div>
+<!-- Continue -->
+<div class="p4-cont" id="p4-cont">
+  <button style="background:none;border:none;cursor:none;" onclick="goTo('page5.html')">
+    <div style="font-family:var(--font-hand);font-size:13px;color:rgba(255,240,220,0.5);margin-bottom:6px;text-align:right;">something important is waiting...</div>
+    <div class="btn-continue-main">the letter 💌</div>
+  </button>
+</div>
+<!-- GAME OVERLAYS -->
+<!-- Hearts -->
+<div class="g-overlay" id="overlay-hearts">
+  <div class="g-box">
+    <button class="g-close" onclick="closeGame('hearts')">✕</button>
+    <div class="g-title">catch my heart</div>
+    <div class="g-sub">catch all 21 hearts before they float away ♡</div>
+    <canvas id="heart-canvas" width="480" height="320"></canvas>
+    <div class="h-score" id="h-score">♡ 0 / 21</div>
+    <div id="heart-reward" style="display:none;margin-top:14px;" class="placeholder-zone">
+      <span class="pz-label">✦ All 21 Caught — Secret Message ✦</span>
+      <p style="font-size:14px;">Write something here that appears when she catches all 21 hearts ♡</p>
+    </div>
+  </div>
+</div>
+<!-- Scratch -->
+<div class="g-overlay" id="overlay-scratch">
+  <div class="g-box">
+    <button class="g-close" onclick="closeGame('scratch')">✕</button>
+    <div class="g-title">scratch to reveal</div>
+    <div class="g-sub">scratch away the gold... something is hiding ✦</div>
+    <div class="scratch-wrap">
+      <div class="scratch-reveal" id="scratch-reveal">
+        <div class="placeholder-zone"><span class="pz-label">✦ Scratch Card Secret ✦</span><p style="font-size:14px;">Write the secret message that appears when she scratches away the gold</p></div>
+      </div>
+      <canvas id="scratch-canvas" width="360" height="220"></canvas>
+    </div>
+  </div>
+</div>
+<!-- Gift -->
+<div class="g-overlay" id="overlay-gift">
+  <div class="g-box">
+    <button class="g-close" onclick="closeGame('gift')">✕</button>
+    <div class="g-title" style="margin-bottom:14px;">a little something ✦</div>
+    <div class="gift-before" id="gift-b">
+      <span class="gift-emoji">🎁</span>
+      <button onclick="openGiftReveal()" class="btn-continue-main gold" style="border:none;">open it ✦</button>
+    </div>
+    <div class="gift-open-area" id="gift-open">
+      <img src="images/solo/s3_roses_night.jpg" alt="her with roses" class="gift-photo" loading="lazy">
+      <div style="font-family:var(--font-display);font-style:italic;font-size:clamp(18px,2.5vw,24px);color:var(--coffee);margin-bottom:14px;">u deserve roses every single day.</div>
+      <div class="placeholder-zone"><span class="pz-label">✦ Gift Message ✦</span><p style="font-size:14px;">Write your personal gift message here ♡</p></div>
+    </div>
+  </div>
+</div>
+<!-- Birthday WIN POPUP -->
+<div class="win-popup" id="win-popup">
+  <div class="win-card">
+    <span class="win-cake">🎂</span>
+    <div class="win-main">happy birthday!</div>
+    <div class="win-age">u r 21 now ✦</div>
+    <div class="win-note">u caught all 21 hearts ♡<br>one for every beautiful year of u existing</div>
+    <button class="win-btn" onclick="document.getElementById('win-popup').classList.remove('show')">✦ aww stop it ✦</button>
+  </div>
+</div>
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+<script src="js/global.js"></script>
+<script>
+'use strict';
+// Fairy lights
+(function(){const s=document.getElementById('fl-str4');const colors=['#FFD580','#FFB3C6','#C9B8E8','#A8D8A8'];for(let i=0;i<26;i++){const l=document.createElement('div');l.className='fl-p4';l.style.cssText=`left:${(i/25)*96+2}%;background:${colors[i%4]};--dur:${1.8+Math.random()*2}s;--delay:${Math.random()*2}s;box-shadow:0 0 5px ${colors[i%4]};`;s.appendChild(l);}})();
+// Window stars
+(function(){const c=document.getElementById('wg4-inner');const ra=document.createElement('div');ra.id='rain-container';c.appendChild(ra);for(let i=0;i<10;i++){const s=document.createElement('div');const sz=Math.random()*1.4+0.7;s.style.cssText=`position:absolute;background:white;border-radius:50%;width:${sz}px;height:${sz}px;left:${Math.random()*92}%;top:${Math.random()*80}%;animation:star-twinkle ${2+Math.random()*3}s ease-in-out ${Math.random()*3}s infinite;`;c.appendChild(s);}})();
+// Vinyl spin
+const vp4=document.getElementById('vinyl-p4');setInterval(()=>{ vp4.style.animation=Audio$.playing?'spin 3s linear infinite':'none'; },500);
+
+// Interactive
+function coffeeTap(e){launchHearts(e.clientX,e.clientY-20,6);secretMessage('same warmth ☕',e.clientX,e.clientY-55);}
+function candleTap(e){secretMessage('for every night i was thinking of u 🕯️',e.clientX,e.clientY-44);}
+function lavTap(e){launchPetals(12,'#C9B8E8');secretMessage('her favourite colour 🌿',e.clientX,e.clientY-44);}
+function catTap(e){launchHearts(e.clientX,e.clientY,3);secretMessage('pspsps 🐾',e.clientX,e.clientY-44);}
+function goddessClick(id,e){
+  burst(e.clientX,e.clientY,{count:18,colors:['#E8B4B8','#C9B8E8','#C4A862','#FFD580']});
+  launchPetals(10,'#E8B4B8');
+  const msgs={s4:'the whole coffee theme exists\nbecause of her brown eyes ☕♡',s5:'every cat picks her first.\nevery. single. time. 🐾',s2:'looking up at the camera like that\nand she doesn\'t even know 🥺'};
+  secretMessage(msgs[id]||'✦ she is everything ✦',e.clientX,e.clientY-60,{color:'#FAF3E0',duration:4000});
+  Store.discover('goddess_p4_'+id);checkProg();
+}
+// Game open/close
+function openGame(id){document.getElementById('overlay-'+id).classList.add('open');if(id==='hearts')startHearts();if(id==='scratch')initScratch();}
+function closeGame(id){document.getElementById('overlay-'+id).classList.remove('open');checkProg();}
+function checkProg(){
+  const d=Store.get().discoveries;
+  if(d.filter(x=>x.startsWith('goddess_p4')).length>=2||Store.get().completedPages.includes(4)){
+    document.getElementById('p4-cont').classList.add('show');Store.pageComplete(4);
+  }
+}
+setTimeout(()=>{document.getElementById('p4-cont').classList.add('show');Store.pageComplete(4);},25000);
+
+/* ── HEART GAME (21 hearts, smooth) ── */
+let hScore=0,hTotal=0,hActive=false,hRAF=null;
+const HEARTS_NEEDED=21;
+const hHearts=[];
+function startHearts(){
+  if(hActive)return; hActive=true;
+  hScore=0;hTotal=0;hHearts.length=0;
+  document.getElementById('h-score').textContent='♡ 0 / 21';
+  document.getElementById('heart-reward').style.display='none';
+  const canvas=document.getElementById('heart-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const colors=['#E8B4B8','#C9B8E8','#F5D5D8','#D4B896','#E8C4D4','#D8A8C8'];
+  // Spawn hearts until we have 21
+  let spawnCount=0;
+  const spawner=setInterval(()=>{
+    if(!document.getElementById('overlay-hearts').classList.contains('open')){clearInterval(spawner);return;}
+    if(spawnCount>=HEARTS_NEEDED){clearInterval(spawner);return;}
+    if(hHearts.length<8){
+      hHearts.push({x:40+Math.random()*(W-80),y:H+30,vy:-(0.8+Math.random()*1.2),vx:(Math.random()-0.5)*0.6,size:18+Math.random()*16,color:colors[Math.floor(Math.random()*colors.length)],alpha:1,caught:false});
+      spawnCount++;
+    }
+  },900);
+  function drawHeart(ctx,x,y,s,col,a){
+    ctx.save();ctx.globalAlpha=a;ctx.fillStyle=col;ctx.beginPath();
+    ctx.moveTo(x,y+s*0.28);ctx.bezierCurveTo(x,y,x-s*0.5,y,x-s*0.5,y+s*0.28);ctx.bezierCurveTo(x-s*0.5,y+s*0.64,x,y+s*0.88,x,y+s);ctx.bezierCurveTo(x,y+s*0.88,x+s*0.5,y+s*0.64,x+s*0.5,y+s*0.28);ctx.bezierCurveTo(x+s*0.5,y,x,y,x,y+s*0.28);
+    ctx.fill();ctx.restore();
+  }
+  function loop(){
+    if(!document.getElementById('overlay-hearts').classList.contains('open')){hActive=false;return;}
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#FAF6EE';ctx.fillRect(0,0,W,H);
+    for(let i=hHearts.length-1;i>=0;i--){
+      const h=hHearts[i];
+      if(h.caught){h.alpha-=0.06;h.size*=1.04;}
+      else{h.x+=h.vx;h.y+=h.vy;}
+      if(h.y+h.size<0||h.alpha<=0){hHearts.splice(i,1);continue;}
+      drawHeart(ctx,h.x-h.size/2,h.y-h.size/2,h.size,h.color,Math.max(0,h.alpha));
+    }
+    hRAF=requestAnimationFrame(loop);
+  }
+  hRAF&&cancelAnimationFrame(hRAF);
+  loop();
+  canvas.onclick=(e)=>{
+    const r=canvas.getBoundingClientRect();
+    const mx=(e.clientX-r.left)*(W/r.width);
+    const my=(e.clientY-r.top)*(H/r.height);
+    hHearts.forEach(h=>{
+      if(h.caught)return;
+      const dx=mx-h.x,dy=my-(h.y+h.size/2);
+      if(Math.sqrt(dx*dx+dy*dy)<h.size*1.4){
+        h.caught=true;hScore++;
+        document.getElementById('h-score').textContent=`♡ ${hScore} / 21`;
+        if(hScore>=HEARTS_NEEDED){
+          setTimeout(()=>{document.getElementById('win-popup').classList.add('show');document.getElementById('heart-reward').style.display='flex';Store.set({gameStates:{...Store.get().gameStates,hearts:true}});},300);
+        }
+      }
+    });
+  };
+}
+
+/* ── SCRATCH CARD ── */
+let scratchReady=false;
+function initScratch(){
+  if(scratchReady)return;scratchReady=true;
+  const canvas=document.getElementById('scratch-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.fillStyle='#C4A862';ctx.fillRect(0,0,W,H);
+  ctx.font='14px serif';ctx.fillStyle='rgba(255,255,255,0.2)';
+  for(let i=0;i<50;i++)ctx.fillText('✦',Math.random()*W,Math.random()*H);
+  ctx.globalCompositeOperation='destination-out';
+  let scratching=false;
+  const sc=(x,y)=>{ctx.beginPath();ctx.arc(x,y,26,0,Math.PI*2);ctx.fill();};
+  canvas.addEventListener('mousedown',()=>scratching=true);
+  canvas.addEventListener('mouseup',()=>scratching=false);
+  canvas.addEventListener('mousemove',e=>{if(!scratching)return;const r=canvas.getBoundingClientRect();sc((e.clientX-r.left)*(W/r.width),(e.clientY-r.top)*(H/r.height));});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();const t=e.touches[0];sc((t.clientX-r.left)*(W/r.width),(t.clientY-r.top)*(H/r.height));},{passive:false});
+}
+
+/* ── GIFT REVEAL ── */
+function openGiftReveal(){
+  document.getElementById('gift-b').style.display='none';
+  const g=document.getElementById('gift-open');g.style.display='block';
+  burst(window.innerWidth/2,window.innerHeight/2,{count:32,colors:['#E8B4B8','#C9B8E8','#C4A862','#FFD580']});
+  launchPetals(20,'#E8B4B8');
+  Store.set({giftOpened:true});
+}
+Store.pageComplete(4);
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>happy birthday my raaaniiii ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: #2A1608; }
+
+/* ── GOLDEN HOUR SCENE ──────────────────────────────────── */
+.golden-scene {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg,
+    #1A0A04 0%, #3D1A06 10%,
+    #E87820 25%, #F5A030 32%,
+    #FBBF60 40%, #F5D088 50%,
+    #EDD4A0 55%,
+    #8B9E78 55.1%, #6B7E58 75%, #4A5E38 100%);
+  overflow: hidden;
+}
+
+/* Sky glow */
+.golden-scene::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 80% 60% at 50% 35%, rgba(255,200,80,0.3) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── LAYERS ─────────────────────────────────────────────── */
+.sky-layer { position: absolute; inset: 0 0 46% 0; overflow: hidden; }
+.ground-layer { position: absolute; bottom: 0; inset: auto 0 0; height: 46%; background: linear-gradient(180deg,#8B9E78,#6B7E58 40%,#4A5E38); }
+
+/* ── FLOATING LANTERNS ──────────────────────────────────── */
+.lantern {
+  position: absolute;
+  cursor: none;
+  z-index: 8;
+  animation: lantern-float var(--dur,4s) ease-in-out var(--delay,0s) infinite;
+  pointer-events: auto;
+  transition: filter 0.3s ease;
+}
+.lantern:hover { filter: brightness(1.3) drop-shadow(0 0 12px rgba(255,200,80,0.8)); }
+
+/* Fireflies */
+.firefly {
+  position: absolute;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: #C4FF80;
+  pointer-events: none; z-index: 6;
+  animation: firefly var(--dur,2s) ease-in-out var(--delay,0s) infinite;
+  box-shadow: 0 0 6px #A0FF60;
+}
+
+/* Flowers on ground */
+.ground-flower {
+  position: absolute; bottom: 0;
+  font-size: var(--fs,18px); pointer-events: none; z-index: 5;
+}
+
+/* ── GODDESS PHOTOS (her solo shots — special treatment) ─ */
+.goddess-photo {
+  position: absolute; z-index: 15;
+  cursor: none;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease, z-index 0s;
+}
+.goddess-photo:hover {
+  z-index: 50;
+}
+
+.goddess-frame {
+  background: white;
+  padding: 8px 8px 30px;
+  box-shadow: 0 8px 32px rgba(107,66,38,0.3), 0 2px 8px rgba(107,66,38,0.15);
+  transform: var(--rot, rotate(-2deg));
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
+  position: relative;
+}
+.goddess-photo:hover .goddess-frame {
+  transform: var(--rot, rotate(-2deg)) scale(1.07) translateY(-10px);
+  box-shadow: 0 16px 56px rgba(107,66,38,0.4);
+}
+.goddess-frame img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+}
+.goddess-frame .cap {
+  position: absolute; bottom: 6px; left: 0; right: 0;
+  text-align: center; font-family: var(--font-hand);
+  font-size: clamp(10px,1.2vw,12px); color: var(--text-light);
+  padding: 0 8px;
+}
+
+/* Gold frame accent on goddess photos */
+.goddess-frame::after {
+  content: '';
+  position: absolute; inset: 3px;
+  border: 1px solid rgba(196,168,98,0.25);
+  pointer-events: none;
+}
+
+/* ── MAIN BIRTHDAY TITLE ────────────────────────────────── */
+.birthday-title {
+  position: absolute; top: 5vh; left: 50%; transform: translateX(-50%);
+  text-align: center; z-index: 20; width: 95%;
+}
+
+.bday-main {
+  font-family: var(--font-display);
+  font-size: clamp(28px,6vw,72px);
+  color: var(--cream);
+  font-style: italic;
+  text-shadow: 0 2px 30px rgba(107,66,38,0.4), 0 0 60px rgba(232,160,48,0.3);
+  opacity: 0;
+  animation: bday-appear 1.2s var(--ease-spring) 0.4s forwards;
+  line-height: 1.1;
+}
+@keyframes bday-appear {
+  from { opacity:0; transform:translateY(20px) scale(0.92); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.bday-sub {
+  font-family: var(--font-hand);
+  font-size: clamp(16px,2.5vw,28px);
+  color: rgba(255,240,200,0.9);
+  margin-top: 6px;
+  opacity: 0; animation: fade-in 1s ease 1.4s forwards;
+  text-shadow: 0 1px 12px rgba(107,66,38,0.3);
+}
+
+/* ── MAIN BIRTHDAY MESSAGE ──────────────────────────────── */
+.bday-message-area {
+  position: absolute; bottom: 52%; left: 50%;
+  transform: translate(-50%, 50%);
+  width: min(90vw, 620px);
+  z-index: 20;
+  opacity: 0; animation: slide-up 0.8s ease 2s forwards;
+}
+
+.bday-card {
+  background: linear-gradient(160deg, #FAF3E0, #F5EDD8);
+  border: 1px solid rgba(196,168,98,0.5);
+  border-radius: 8px;
+  padding: clamp(20px,3vw,36px) clamp(20px,3vw,40px);
+  box-shadow: var(--shadow-hover), inset 0 0 20px rgba(196,168,98,0.06);
+  text-align: center; position: relative;
+  font-family: var(--font-body); color: var(--text-dark);
+  max-height: 38vh; overflow-y: auto;
+}
+.bday-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.bday-card-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.bday-placeholder {
+  background: rgba(255,249,220,0.8);
+  border: 1.5px dashed var(--gold);
+  border-radius: 4px; padding: 18px 20px;
+  font-family: var(--font-hand); font-size: 13px;
+  color: var(--gold-dark); min-height: 80px;
+  display: flex; flex-direction: column; gap: 6px;
+  align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+}
+.bday-placeholder .label {
+  font-family: var(--font-sub); font-size: 8.5px;
+  letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.65;
+}
+
+/* ── 21 FLOATING NUMBERS ─────────────────────────────────── */
+.num-float {
+  position: fixed; z-index: 100; pointer-events: none;
+  font-family: var(--font-display); font-style: italic;
+  color: rgba(232,160,48,0.15);
+  font-size: var(--fs,80px);
+  animation: num-drift var(--dur,8s) ease-in-out var(--delay,0s) infinite;
+  user-select: none;
+}
+@keyframes num-drift {
+  0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
+  50%      { transform: translateY(var(--dy,-15px)) rotate(var(--rot2,5deg)); }
+}
+
+/* ── CONTINUE ──────────────────────────────────────────── */
+.p8-continue {
+  position: fixed; bottom: 28px; right: 36px;
+  z-index: 200; opacity: 0; transition: opacity 0.8s ease;
+}
+.p8-continue.show { opacity: 1; }
+
+/* Scrollbar */
+.bday-card::-webkit-scrollbar { width: 3px; }
+.bday-card::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+@media (max-width: 640px) {
+  .goddess-photo { display: none; }
+  .bday-message-area { bottom: 48%; }
+}
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="golden-scene" id="scene">
+  <div class="sky-layer" id="sky-layer"></div>
+  <div class="ground-layer" id="ground-layer"></div>
+
+  <!-- Fireflies -->
+  <div id="fireflies"></div>
+
+  <!-- Ground flowers -->
+  <div class="ground-flower" style="left:5%;--fs:22px;">🌸</div>
+  <div class="ground-flower" style="left:15%;--fs:18px;">🌼</div>
+  <div class="ground-flower" style="left:25%;--fs:24px;">✿</div>
+  <div class="ground-flower" style="right:8%;--fs:20px;">🌸</div>
+  <div class="ground-flower" style="right:18%;--fs:16px;">🌼</div>
+  <div class="ground-flower" style="right:30%;--fs:22px;">✿</div>
+
+  <!-- ═══ HER PHOTOS (goddess treatment) ═══ -->
+
+  <!-- s4: coffee mug — brown eyes — left side -->
+  <div class="goddess-photo" style="left:2%;top:38%;z-index:15;" onclick="goddessClick('s4',event)">
+    <div class="goddess-frame" style="width:clamp(90px,11vw,140px);height:clamp(100px,12vw,150px);--rot:rotate(-3deg);">
+      <img src="images/solo/s4_coffee_mug.jpg" alt="her" loading="lazy">
+      <div class="cap">☕ my favourite view</div>
+    </div>
+  </div>
+
+  <!-- s2: cat on street — right side -->
+  <div class="goddess-photo" style="right:2%;top:35%;z-index:15;" onclick="goddessClick('s2',event)">
+    <div class="goddess-frame" style="width:clamp(80px,10vw,125px);height:clamp(90px,11vw,135px);--rot:rotate(2.5deg);">
+      <img src="images/solo/s2_cat_street.jpg" alt="her" loading="lazy">
+      <div class="cap">🐾 purest joy</div>
+    </div>
+  </div>
+
+  <!-- s1: pink flowers — far left -->
+  <div class="goddess-photo" style="left:1%;top:68%;z-index:15;" onclick="goddessClick('s1',event)">
+    <div class="goddess-frame" style="width:clamp(80px,9vw,115px);height:clamp(90px,10vw,125px);--rot:rotate(-2deg);">
+      <img src="images/solo/s1_flowers_pink.jpg" alt="her" loading="lazy">
+      <div class="cap">🌸 her smile ♡</div>
+    </div>
+  </div>
+
+  <!-- s5: cat cafe — far right -->
+  <div class="goddess-photo" style="right:1%;top:66%;z-index:15;" onclick="goddessClick('s5',event)">
+    <div class="goddess-frame" style="width:clamp(80px,10vw,125px);height:clamp(90px,11vw,135px);--rot:rotate(2deg);">
+      <img src="images/solo/s5_cat_cafe.jpg" alt="her" loading="lazy">
+      <div class="cap">✦ she's the goddess</div>
+    </div>
+  </div>
+
+</div><!-- /scene -->
+
+<!-- ═══ LANTERNS (floating above scene) ═══ -->
+<div id="lanterns" style="position:fixed;inset:0;pointer-events:none;z-index:10;"></div>
+
+<!-- 21 floating -->
+<div id="num-floats" style="position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;"></div>
+
+<!-- ═══ BIRTHDAY TITLE ═══ -->
+<div class="birthday-title">
+  <div class="bday-main">happy birthday<br><em>my raaaniiii</em></div>
+  <div class="bday-sub">21 years of the world being a better place ♡</div>
+</div>
+
+<!-- ═══ BIRTHDAY MESSAGE CARD ═══ -->
+<div class="bday-message-area" id="bday-msg">
+  <div class="bday-card">
+    <span class="bday-card-icon">🎂</span>
+    <div class="bday-placeholder">
+      <span class="label">✦ Your Birthday Wish — the biggest one ✦</span>
+      <p style="font-size:13px;line-height:1.8;margin-top:8px;">Write your main birthday message here — everything u want to say to her on this night. This is the centrepiece of page 8. Make it ur voice.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Continue -->
+<div class="p8-continue" id="p8-continue">
+  <button style="background:none;border:none;cursor:none;" onclick="launchLanternTransition()">
+    <div style="font-family:var(--font-hand);font-size:12px;color:rgba(255,240,200,0.6);margin-bottom:6px;text-align:right;">one last thing...</div>
+    <div id="continue-btn-8" style="background:rgba(255,240,200,0.15);border:1px solid rgba(255,220,120,0.4);color:rgba(255,240,200,0.9);padding:12px 26px;border-radius:30px;font-family:var(--font-hand);font-size:16px;box-shadow:0 4px 20px rgba(232,160,48,0.2);transition:all 0.3s;"
+         onmouseover="this.style.background='rgba(255,220,120,0.25)'" onmouseout="this.style.background='rgba(255,240,200,0.15)'">
+      follow the lantern ✦
+    </div>
+  </button>
+</div>
+
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── FLOATING LANTERNS ──────────────────────────────────── */
+(function() {
+  const container = document.getElementById('lanterns');
+  const count = 14;
+  for (let i = 0; i < count; i++) {
+    const l = document.createElement('div');
+    l.className = 'lantern';
+    const size = 24 + Math.random() * 20;
+    l.style.cssText = `
+      left:${5+Math.random()*90}%;
+      top:${10+Math.random()*35}%;
+      --dur:${3.5+Math.random()*3}s;
+      --delay:${Math.random()*4}s;
+      font-size:${size}px;
+      pointer-events:auto;
+    `;
+    l.textContent = '🏮';
+    l.title = 'a lantern for u ✦';
+    l.addEventListener('click', e => {
+      burst(e.clientX, e.clientY, {count:16, colors:['#FFD580','#E8B4B8','#C9B8E8','#FFD580']});
+      launchPetals(8, '#FFD580');
+      secretMessage('every light here is for u ♡', e.clientX, e.clientY-40, {color:'#FAF3E0'});
+      Store.discover('lantern_' + i);
+      checkProgress();
+    });
+    container.appendChild(l);
+  }
+})();
+
+/* ── FIREFLIES ──────────────────────────────────────────── */
+(function() {
+  const c = document.getElementById('fireflies');
+  for (let i = 0; i < 18; i++) {
+    const f = document.createElement('div');
+    f.className = 'firefly';
+    f.style.cssText = `left:${Math.random()*100}%;top:${40+Math.random()*55}%;--dur:${1.5+Math.random()*2}s;--delay:${Math.random()*3}s;`;
+    c.appendChild(f);
+  }
+})();
+
+/* ── 21 FLOATING NUMBERS ─────────────────────────────────── */
+(function() {
+  const c = document.getElementById('num-floats');
+  for (let i = 0; i < 8; i++) {
+    const n = document.createElement('div');
+    n.className = 'num-float';
+    n.textContent = '21';
+    n.style.cssText = `
+      left:${Math.random()*90}%; top:${Math.random()*80}%;
+      --fs:${60+Math.random()*80}px;
+      --dur:${7+Math.random()*6}s;
+      --delay:${Math.random()*5}s;
+      --rot:${(Math.random()-0.5)*20}deg;
+      --rot2:${(Math.random()-0.5)*30}deg;
+      --dy:${-10-Math.random()*20}px;
+    `;
+    c.appendChild(n);
+  }
+})();
+
+/* ── GODDESS PHOTO CLICK ───────────────────────────────── */
+function goddessClick(id, e) {
+  burst(e.clientX, e.clientY, {count:18, colors:['#E8B4B8','#C9B8E8','#C4A862','#FFD580']});
+  launchPetals(12, '#E8B4B8');
+  const msgs = {
+    s4: 'the entire colour palette of this site\nis secretly the colour of ur eyes ☕',
+    s2: 'every cat picks u first. every single time. 🐾\nu have that kind of energy.',
+    s1: 'the way ur eyes light up when someone gives u flowers\nis one of my favourite sights 🌸',
+    s5: 'my lord my queen my raaani\nliterally what r u 😭♡'
+  };
+  secretMessage(msgs[id] || '✦ she is everything ✦', e.clientX, e.clientY-60, {
+    color:'#FAF3E0', duration:4000
+  });
+  Store.discover('goddess_' + id);
+  checkProgress();
+}
+
+/* ── PROGRESS ───────────────────────────────────────────── */
+function checkProgress() {
+  const d = Store.get().discoveries;
+  const clicked = d.filter(x => x.startsWith('lantern_') || x.startsWith('goddess_')).length;
+  if (clicked >= 3) {
+    document.getElementById('p8-continue').classList.add('show');
+    Store.pageComplete(8);
+  }
+}
+
+// Show after 20s regardless
+setTimeout(() => {
+  document.getElementById('p8-continue').classList.add('show');
+  Store.pageComplete(8);
+}, 20000);
+
+// Launch petals on arrival
+setTimeout(() => {
+  launchPetals(24, '#E8B4B8');
+  setTimeout(() => launchPetals(18, '#C9B8E8'), 800);
+  setTimeout(() => launchPetals(12, '#FFD580'), 1600);
+}, 1000);
+
+/* ── LANTERN TRANSITION TO PAGE 9 ─────────────────────── */
+function launchLanternTransition() {
+  // One lantern rises dramatically then we navigate
+  launchPetals(20, '#FFD580');
+  burst(window.innerWidth/2, window.innerHeight/2, {count:30, colors:['#FFD580','#E8B4B8','#C9B8E8']});
+  setTimeout(() => goTo('page9.html'), 900);
+}
+</script>
+</body>
+</html>

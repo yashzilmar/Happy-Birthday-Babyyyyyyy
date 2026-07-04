@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>the letter i could never finish ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: #120A04; }
+
+/* ── DESK SCENE ─────────────────────────────────────────── */
+.desk-scene {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg, #1A0E06 0%, #1A0E06 40%, #2E1A0A 40.1%, #241408 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Ambient candle glow */
+.desk-scene::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 55% 50% at 50% 48%, rgba(232,160,48,0.18) 0%, transparent 60%);
+  pointer-events: none; z-index: 1;
+}
+
+/* Desk surface */
+.desk {
+  position: absolute; bottom: 0; inset: auto 0 0;
+  height: 38vh;
+  background: linear-gradient(180deg, #3D2010 0%, #2E1808 100%);
+}
+.desk::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.02) 80px, rgba(255,255,255,0.02) 81px);
+}
+.desk-edge {
+  position: absolute; top: 38vh; bottom: auto; left: 0; right: 0;
+  height: 6px; margin-top: calc(-38vh);
+  background: linear-gradient(90deg, #6B4226, #8B5E3C 30%, #8B5E3C 70%, #6B4226);
+  transform: translateY(-6px);
+}
+
+/* Window (tiny, top right, just stars) */
+.tiny-window {
+  position: absolute; right: 6vw; top: 8vh;
+  width: clamp(80px,10vw,130px); height: clamp(90px,12vh,150px);
+  background: linear-gradient(160deg, #0D1825, #08101A);
+  border: 7px solid #6B4226;
+  box-shadow: inset 0 0 0 2px #8B5E3C;
+}
+.tiny-window::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(90deg, transparent calc(50%-1px), rgba(139,94,60,0.6) calc(50%-1px), rgba(139,94,60,0.6) calc(50%+1px), transparent calc(50%+1px)),
+    linear-gradient(180deg, transparent calc(50%-1px), rgba(139,94,60,0.6) calc(50%-1px), rgba(139,94,60,0.6) calc(50%+1px), transparent calc(50%+1px));
+}
+
+/* Scrolling LOVE background */
+.love-bg {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 0;
+  opacity: 0.045;
+}
+.love-text {
+  font-family: var(--font-display);
+  font-size: clamp(28px,4vw,52px);
+  color: var(--coffee);
+  white-space: nowrap;
+  line-height: 1.6;
+  animation: love-scroll 18s linear infinite;
+  position: absolute; top: 0; left: 0;
+  width: 200%;
+}
+.love-text:nth-child(2) { animation-delay: -9s; }
+@keyframes love-scroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+/* ── DESK OBJECTS ───────────────────────────────────────── */
+.desk-obj { position: absolute; z-index: 12; }
+
+/* Photo of her (s4 - coffee mug - the brown eyes connection) */
+.her-photo-frame {
+  position: absolute; left: 5%; bottom: 34vh;
+  transform: translateY(-100%) rotate(-3deg);
+  z-index: 12; cursor: none;
+  transition: transform 0.3s var(--ease-spring);
+}
+.her-photo-frame:hover { transform: translateY(-100%) rotate(-3deg) scale(1.06) translateY(-4px); }
+.her-photo-frame .photo-inner {
+  background: white; padding: 6px 6px 24px;
+  box-shadow: var(--shadow-paper);
+  width: clamp(80px,10vw,120px);
+}
+.her-photo-frame img { display: block; width: 100%; height: auto; object-fit: cover; }
+.her-photo-frame .caption {
+  position: absolute; bottom: 5px; left: 0; right: 0;
+  text-align: center; font-family: var(--font-hand); font-size: 9px;
+  color: var(--text-light);
+}
+
+/* Candle on desk */
+.desk-candle {
+  position: absolute; right: 7%; bottom: 35vh;
+  transform: translateY(-100%); z-index: 12; cursor: none;
+}
+
+/* Fountain pen */
+.pen-wrap {
+  position: absolute; right: 14%; bottom: 33vh;
+  transform: translateY(-100%) rotate(-25deg); z-index: 11;
+}
+
+/* Coffee ring on desk */
+.coffee-ring-d {
+  position: absolute; border-radius: 50%;
+  border: 2px solid rgba(107,66,38,0.18);
+  pointer-events: none; z-index: 10;
+  bottom: 32vh;
+}
+
+/* Lavender sprig on desk */
+.desk-lav {
+  position: absolute; right: 20%; bottom: 33.5vh;
+  transform: translateY(-100%); z-index: 12; cursor: none;
+  animation: lavender-sway 5s ease-in-out infinite;
+}
+
+/* ── THE PARCHMENT LETTER ────────────────────────────────── */
+.letter-stage {
+  position: relative; z-index: 20;
+  display: flex; flex-direction: column; align-items: center;
+  width: min(92vw, 680px);
+  margin-top: -8vh;
+}
+
+/* The letter itself */
+.parchment {
+  background: linear-gradient(160deg, #FAF3E0 0%, #F5EDD8 50%, #F0E6C8 100%);
+  border: 1px solid rgba(196,168,98,0.35);
+  padding: clamp(24px,4vw,48px) clamp(24px,5vw,52px);
+  box-shadow:
+    0 12px 48px rgba(26,14,6,0.5),
+    0 2px 8px rgba(26,14,6,0.3),
+    inset 0 0 30px rgba(196,168,98,0.06);
+  position: relative;
+  max-height: 70vh;
+  overflow-y: auto;
+  width: 100%;
+  transform: perspective(800px) rotateX(1deg);
+  transition: transform 0.4s ease;
+}
+.parchment:hover { transform: perspective(800px) rotateX(0deg); }
+
+/* Deckled edges */
+.parchment::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: repeating-linear-gradient(180deg,
+    var(--beige) 0px, var(--beige) 3px,
+    var(--cream-dark) 3px, var(--cream-dark) 8px
+  );
+  opacity: 0.6;
+}
+.parchment::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg, transparent, transparent 32px,
+    rgba(107,66,38,0.04) 32px, rgba(107,66,38,0.04) 33px
+  );
+  pointer-events: none; z-index: 0;
+}
+
+/* Decorative corner flourish */
+.flourish {
+  position: absolute; font-size: 22px; opacity: 0.2;
+  font-family: serif; color: var(--gold-dark);
+  pointer-events: none;
+}
+
+/* Letter header */
+.letter-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 24px; position: relative; z-index: 2;
+}
+.letter-to {
+  font-family: var(--font-hand); font-size: clamp(16px,2.5vw,22px);
+  color: var(--coffee); line-height: 1.5;
+}
+.letter-date-side {
+  font-family: var(--font-hand); font-size: 12px;
+  color: var(--text-muted); text-align: right;
+  line-height: 1.6;
+}
+
+/* Opening line (typewritten reveal) */
+.letter-opening {
+  font-family: var(--font-sub); font-style: italic;
+  font-size: clamp(17px,2.2vw,21px);
+  color: var(--text-dark); line-height: 1.9;
+  margin-bottom: 20px; position: relative; z-index: 2;
+  min-height: 60px;
+}
+
+/* Confession placeholder area */
+.confession-area {
+  position: relative; z-index: 2;
+  margin: 20px 0;
+}
+
+.conf-placeholder {
+  background: rgba(255,249,220,0.7);
+  border: 1.5px dashed var(--gold);
+  border-radius: 4px;
+  padding: 20px 22px;
+  font-family: var(--font-hand);
+  font-size: 14px; color: var(--gold-dark);
+  min-height: 100px; text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px; line-height: 1.7;
+}
+.conf-placeholder .label {
+  font-family: var(--font-sub); font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.65;
+}
+
+/* Old confession photo area */
+.old-confession {
+  margin-top: 20px; position: relative; z-index: 2;
+  border-top: 1px dashed rgba(196,168,98,0.3);
+  padding-top: 18px;
+}
+.old-conf-label {
+  font-family: var(--font-hand); font-size: 12px;
+  color: var(--text-muted); text-align: center; margin-bottom: 12px;
+  font-style: italic;
+}
+.old-conf-placeholder {
+  background: rgba(240,232,208,0.8);
+  border: 1px solid rgba(196,168,98,0.3);
+  border-radius: 4px; padding: 16px; text-align: center;
+  font-family: var(--font-hand); font-size: 13px; color: var(--text-light);
+  min-height: 80px; display: flex; align-items: center; justify-content: center;
+}
+
+/* Letter sign-off */
+.letter-signoff {
+  margin-top: 24px; text-align: right;
+  position: relative; z-index: 2;
+}
+.signoff-line {
+  font-family: var(--font-hand); font-size: 18px; color: var(--coffee);
+}
+.signoff-name {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 26px; color: var(--coffee-dark);
+  margin-top: 4px;
+}
+.signoff-name .placeholder-zone {
+  font-size: 13px; min-height: 36px; display: inline-block; padding: 6px 16px;
+}
+
+/* Wax seal on letter */
+.letter-seal {
+  position: absolute; bottom: -22px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+}
+
+/* ── BOOKMARK (continue) ────────────────────────────────── */
+.bookmark-continue {
+  margin-top: 28px;
+  opacity: 0; transition: opacity 0.8s ease;
+  display: flex; justify-content: center;
+}
+.bookmark-continue.show { opacity: 1; }
+.bmark-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  background: none; border: none; cursor: none;
+}
+.bmark-inner {
+  background: linear-gradient(180deg, var(--lavender-light), var(--lavender));
+  width: 56px; padding: 12px 0 18px;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  box-shadow: 0 4px 16px rgba(155,133,201,0.3);
+  transition: transform 0.3s var(--ease-spring);
+}
+.bmark-inner:hover { transform: translateY(-6px) scale(1.05); }
+.bmark-inner span { font-size: 16px; }
+.bmark-text { font-family: var(--font-hand); font-size: 12px; color: var(--lavender-dark); }
+
+/* ── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes letter-unfold {
+  from { transform: perspective(800px) rotateX(30deg) scaleY(0.4); opacity: 0; }
+  to   { transform: perspective(800px) rotateX(1deg) scaleY(1); opacity: 1; }
+}
+.parchment { animation: letter-unfold 1.2s var(--ease-spring) 0.3s both; }
+
+/* ── CONFESSION PAGE STYLES ─────────────────────────────── */
+.conf-page {
+  position: absolute;
+  transform: rotate(var(--r, 0deg));
+  background: white;
+  padding: 5px;
+  box-shadow: 2px 3px 12px rgba(26,14,6,0.18), 0 1px 3px rgba(26,14,6,0.1);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease, z-index 0s;
+  cursor: none;
+  border-radius: 2px;
+}
+.conf-page:hover {
+  transform: rotate(var(--r,0deg)) scale(1.06) translateY(-4px);
+  box-shadow: 4px 8px 28px rgba(26,14,6,0.3);
+  z-index: 50;
+}
+.conf-page img {
+  display: block; width: 100%; height: auto;
+  object-fit: cover; border-radius: 1px;
+}
+.conf-page-num {
+  position: absolute; bottom: 6px; right: 8px;
+  font-family: var(--font-hand); font-size: 9px;
+  color: var(--text-muted);
+}
+/* The pages grid needs space */
+#confession-pages { padding-bottom: 260px; }
+
+/* Scrollbar for parchment */
+.parchment::-webkit-scrollbar { width: 4px; }
+.parchment::-webkit-scrollbar-track { background: transparent; }
+.parchment::-webkit-scrollbar-thumb { background: var(--gold); opacity: 0.4; border-radius: 4px; }
+
+@media (max-width: 768px) {
+  .her-photo-frame { display: none; }
+  .desk-candle { right: 3%; }
+  .desk-lav { display: none; }
+  .letter-stage { margin-top: -4vh; }
+}
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="desk-scene">
+
+  <!-- Scrolling LOVE in background -->
+  <div class="love-bg" aria-hidden="true">
+    <div class="love-text" id="love-text-1"></div>
+    <div class="love-text" id="love-text-2"></div>
+  </div>
+
+  <!-- Tiny window with stars -->
+  <div class="tiny-window" id="tiny-window">
+    <div id="win-stars-p5"></div>
+  </div>
+
+  <!-- Desk -->
+  <div class="desk"></div>
+  <div class="desk-edge"></div>
+
+  <!-- Coffee ring stain on desk -->
+  <div class="coffee-ring-d" style="width:55px;height:55px;left:26%;bottom:30.5vh;"></div>
+  <div class="coffee-ring-d" style="width:38px;height:38px;left:28.5%;bottom:30.5vh;"></div>
+
+  <!-- Her photo on desk (s4 - the brown eyes connection) -->
+  <div class="her-photo-frame" id="her-frame" onclick="hPhotoClick(event)">
+    <div class="photo-inner">
+      <img src="images/solo/s4_coffee_mug.jpg" alt="her" loading="lazy">
+    </div>
+    <div class="caption">☕ same brown</div>
+  </div>
+
+  <!-- Candle on desk -->
+  <div class="desk-candle">
+    <svg width="26" height="76" viewBox="0 0 26 76" fill="none">
+      <rect x="7" y="26" width="12" height="46" rx="2" fill="#F9F2E4"/>
+      <path d="M7,34 Q5,38 6,46 L7,46z" fill="#EDE0C8"/>
+      <line x1="13" y1="26" x2="13" y2="18" stroke="#5C4A38" stroke-width="1.1"/>
+      <g style="animation:flame-dance 1.7s ease-in-out infinite;transform-origin:13px 16px;">
+        <ellipse cx="13" cy="16" rx="4" ry="7" fill="#F5A623" opacity="0.95"/>
+        <ellipse cx="13" cy="18" rx="2.5" ry="4.5" fill="#FFD060"/>
+        <ellipse cx="13" cy="20" rx="1.2" ry="2.2" fill="white" opacity="0.85"/>
+      </g>
+      <circle cx="13" cy="16" r="10" fill="#F5A623" opacity="0.08" style="animation:flame-dance 1.7s ease-in-out 0.2s infinite;transform-origin:13px 16px;"/>
+    </svg>
+  </div>
+
+  <!-- Fountain pen on desk -->
+  <div class="pen-wrap">
+    <svg width="16" height="90" viewBox="0 0 16 90" fill="none">
+      <rect x="4" y="10" width="8" height="55" rx="4" fill="#2A1A0E"/>
+      <rect x="5" y="12" width="3" height="50" rx="2" fill="rgba(255,255,255,0.06)"/>
+      <polygon points="4,65 12,65 8,88" fill="#C4A862"/>
+      <polygon points="6,65 10,65 8,80" fill="#9E8442"/>
+      <rect x="3" y="8" width="10" height="6" rx="2" fill="#C4A862"/>
+    </svg>
+  </div>
+
+  <!-- Lavender on desk -->
+  <div class="desk-lav">
+    <svg width="24" height="44" viewBox="0 0 24 44" fill="none">
+      <path d="M12,42 L12,12" stroke="#9CAF88" stroke-width="1.2"/>
+      <ellipse cx="5"  cy="20" rx="2.2" ry="3.8" fill="#C9B8E8" transform="rotate(-20 5 20)"/>
+      <ellipse cx="19" cy="16" rx="2.2" ry="3.8" fill="#B8A8D8" transform="rotate(20 19 16)"/>
+      <ellipse cx="12" cy="9"  rx="2"   ry="4"   fill="#C9B8E8"/>
+      <ellipse cx="8"  cy="6"  rx="1.6" ry="3"   fill="#D8C8F0" transform="rotate(-12 8 6)"/>
+      <ellipse cx="16" cy="6"  rx="1.6" ry="3"   fill="#B8A8D8" transform="rotate(12 16 6)"/>
+    </svg>
+  </div>
+
+  <!-- ═══ THE LETTER ═══ -->
+  <div class="letter-stage">
+
+    <div class="parchment" id="parchment" onmousemove="tiltLetter(event)" onmouseleave="resetTilt()">
+
+      <div class="flourish" style="top:10px;left:12px;">✦</div>
+      <div class="flourish" style="top:10px;right:12px;">✦</div>
+      <div class="flourish" style="bottom:10px;left:12px;">✦</div>
+      <div class="flourish" style="bottom:10px;right:12px;">✦</div>
+
+      <!-- Pressed lavender decoration -->
+      <div style="position:absolute;top:12px;right:18px;font-size:20px;opacity:0.2;transform:rotate(-10deg);pointer-events:none;">🌿</div>
+
+      <div class="letter-header">
+        <div class="letter-to">
+          my raaani,<br>
+          <span style="font-size:clamp(13px,1.6vw,16px);color:var(--text-light);">for your 21st — midnight, 5th July</span>
+        </div>
+        <div class="letter-date-side">
+          written<br>somewhere<br>missing u
+        </div>
+      </div>
+
+      <!-- Opening line (animated reveal) -->
+      <div class="letter-opening" id="letter-opening"></div>
+
+      <!-- ═══ NEW CONFESSION PLACEHOLDER ═══ -->
+      <div class="confession-area">
+        <div class="conf-placeholder" id="confession-main">
+          <span class="label">✦ Your New Confession — the main letter ✦</span>
+          <p>This is the emotional heart of the website. Write your new confession here — everything you feel, in your voice. Replace this entire div with your actual text (or use <code>data-letter</code> on #letter-opening).</p>
+          <p style="margin-top:8px;font-size:11px;color:var(--text-muted);">Tip: the opening line above is animated. Add your letter text to the <code>data-text</code> attribute of #letter-opening.</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="border-top:1px dashed rgba(196,168,98,0.3);margin:20px 0;position:relative;z-index:2;">
+        <span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--parchment);padding:0 8px;font-family:var(--font-hand);font-size:11px;color:var(--gold);">from last year ✦</span>
+      </div>
+
+      <!-- ═══ OLD HANDWRITTEN CONFESSION — the real one ═══ -->
+      <div class="old-confession">
+        <div class="old-conf-label">✦ the one i gave u last year... ✦</div>
+
+        <div style="position:relative;z-index:2;">
+          <!-- Intro note above the pages -->
+          <div style="font-family:var(--font-hand);font-size:13px;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic;line-height:1.7;">
+            i didn't know how to say it properly back then either.<br>
+            some things never change. ♡
+          </div>
+
+          <!-- Confession pages grid — scattered like dropped pages -->
+          <div id="confession-pages" style="position:relative;min-height:260px;">
+
+            <!-- Page 1 — "iiiiii lovvveee talkinggg..." -->
+            <div class="conf-page" style="--r:-3deg;left:0%;top:0;width:46%;">
+              <img src="images/confession/c1_love_talking.jpg" alt="handwritten confession page 1" loading="lazy">
+              <div class="conf-page-num">1</div>
+            </div>
+
+            <!-- Page 2 — "buttttt todayyy..." -->
+            <div class="conf-page" style="--r:2.5deg;left:52%;top:10px;width:46%;">
+              <img src="images/confession/c2_something_special.jpg" alt="handwritten confession page 2" loading="lazy">
+              <div class="conf-page-num">2</div>
+            </div>
+
+            <!-- Page 3 — "HAPPY BIRTHDAY SWEETHEART" -->
+            <div class="conf-page" style="--r:-2deg;left:4%;top:195px;width:44%;">
+              <img src="images/confession/c3_happy_birthday.jpg" alt="handwritten confession page 3" loading="lazy">
+              <div class="conf-page-num">3</div>
+            </div>
+
+            <!-- Page 4 — "NEVER THOUGHT I'd find you BUT" -->
+            <div class="conf-page" style="--r:3deg;left:52%;top:205px;width:44%;">
+              <img src="images/confession/c4_never_thought.jpg" alt="handwritten confession page 4" loading="lazy">
+              <div class="conf-page-num">4</div>
+            </div>
+
+            <!-- Page 5 — "YOU'RE here and so, I LOVE YA" -->
+            <div class="conf-page" style="--r:-1.5deg;left:8%;top:400px;width:38%;">
+              <img src="images/confession/c5_i_love_ya.jpg" alt="handwritten confession page 5" loading="lazy">
+              <div class="conf-page-num">5</div>
+            </div>
+
+            <!-- Page 6 — "I am NOT lying... STUCK on ta Youuuu" -->
+            <div class="conf-page" style="--r:2deg;left:50%;top:408px;width:42%;">
+              <img src="images/confession/c6_stuck_on_you.jpg" alt="handwritten confession page 6" loading="lazy">
+              <div class="conf-page-num">6</div>
+            </div>
+
+          </div><!-- /confession-pages -->
+
+          <div style="margin-top:16px;text-align:center;font-family:var(--font-hand);font-size:12px;color:var(--text-muted);padding-top:8px;border-top:1px dashed rgba(196,168,98,0.2);">
+            still stuck on u. always will be. ♡
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-off -->
+      <div class="letter-signoff">
+        <div class="signoff-line">with everything i have,</div>
+        <div class="signoff-name">
+          <div class="placeholder-zone" style="font-size:14px;min-height:40px;display:inline-block;padding:8px 18px;">
+            [ your name + signature ]
+          </div>
+        </div>
+      </div>
+
+      <!-- Wax seal -->
+      <div class="letter-seal">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="21" fill="#C4A862"/>
+          <circle cx="22" cy="22" r="17" fill="none" stroke="#9E8442" stroke-width="1" opacity="0.7"/>
+          <path d="M22,28 Q14,20 14,16 Q14,11 19,11 Q22,11 22,14 Q22,11 25,11 Q30,11 30,16 Q30,20 22,28Z" fill="#9E8442" opacity="0.9"/>
+        </svg>
+      </div>
+
+    </div><!-- /parchment -->
+
+    <!-- Bookmark continue -->
+    <div class="bookmark-continue" id="bmark-continue">
+      <button class="bmark-btn" onclick="goTo('page6.html')">
+        <div class="bmark-inner">
+          <span>🔖</span>
+          <span style="font-size:10px;color:white;font-family:var(--font-hand);">next</span>
+        </div>
+        <span class="bmark-text">our tomorrows... ✦</span>
+      </button>
+    </div>
+
+  </div><!-- /letter-stage -->
+
+</div><!-- /desk-scene -->
+
+<!-- Music -->
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo · aa gale lag jaa</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── LOVE BACKGROUND TEXT ──────────────────────────────── */
+(function() {
+  const words = 'LOVE  love  ♡  प्यार  love  LOVE  ♡  love  amor  ';
+  const repeat = words.repeat(20);
+  document.getElementById('love-text-1').textContent = repeat;
+  document.getElementById('love-text-2').textContent = repeat;
+})();
+
+/* ── WINDOW STARS ──────────────────────────────────────── */
+(function() {
+  const c = document.getElementById('win-stars-p5');
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('div');
+    const sz = Math.random()*1.5+0.8;
+    s.style.cssText = `position:absolute;background:white;border-radius:50%;width:${sz}px;height:${sz}px;left:${Math.random()*92}%;top:${Math.random()*80}%;animation:star-twinkle ${2+Math.random()*3}s ease-in-out ${Math.random()*3}s infinite;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── LETTER OPENING ANIMATION ──────────────────────────── */
+// Opening line — the animated typewriter text.
+// TO CUSTOMISE: change the text in data-text below, or directly edit the string here.
+const OPENING_TEXT = `i've started this letter a hundred times.\n\nalways the same problem —\ni don't know where to begin\nwhen everything about u is the beginning.`;
+
+const el = document.getElementById('letter-opening');
+// Check for custom text in data attribute
+el.dataset.text = el.dataset.text || OPENING_TEXT;
+
+setTimeout(() => {
+  writeText(el, el.dataset.text, {
+    speed: 55, variance: 35, delay: 600,
+    onDone: () => {
+      setTimeout(() => {
+        document.getElementById('bmark-continue').classList.add('show');
+      }, 1200);
+    }
+  });
+}, 800);
+
+/* ── LETTER TILT ON HOVER ──────────────────────────────── */
+function tiltLetter(e) {
+  const p = document.getElementById('parchment');
+  const r = p.getBoundingClientRect();
+  const x = (e.clientX - r.left - r.width/2)  / r.width;
+  const y = (e.clientY - r.top  - r.height/2) / r.height;
+  p.style.transform = `perspective(800px) rotateY(${x*3}deg) rotateX(${-y*2}deg)`;
+}
+function resetTilt() {
+  document.getElementById('parchment').style.transform = 'perspective(800px) rotateX(1deg)';
+}
+
+/* ── HER PHOTO CLICK ───────────────────────────────────── */
+function hPhotoClick(e) {
+  burst(e.clientX, e.clientY, {count:14, colors:['#C4A862','#C9B8E8','#E8B4B8']});
+  secretMessage('the colour of her eyes\nis the colour of every warm thing', e.clientX, e.clientY-60, {color:'#FAF3E0', duration:3500});
+  Store.discover('brown_eyes_reveal');
+}
+
+Store.pageComplete(5);
+</script>
+</body>
+</html>

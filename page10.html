@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>home ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: #1A0A04; }
+
+/* ── SUNRISE HILLTOP ────────────────────────────────────── */
+.home-scene {
+  position: fixed; inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg,
+    #1A0A04 0%,
+    #8B2E0A 8%,
+    #E85E14 16%,
+    #F5921E 22%,
+    #F5B832 28%,
+    #F5D06E 34%,
+    #F5E4A8 40%,
+    #EDD8C0 44%,
+    #5C7840 44.1%,
+    #4A6830 58%,
+    #3A5828 100%
+  );
+}
+
+/* Sunrise glow */
+.home-scene::before {
+  content: ''; position: absolute;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,230,140,0.9) 0%, rgba(255,160,60,0.5) 35%, transparent 70%);
+  top: -80px; left: 50%; transform: translateX(-50%);
+  filter: blur(12px); pointer-events: none; z-index: 1;
+  animation: sun-rise 8s ease forwards;
+}
+@keyframes sun-rise {
+  from { top: -80px; opacity: 0.3; }
+  to   { top: -40px; opacity: 1; }
+}
+
+/* Warm atmosphere overlay */
+.home-scene::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 90% 70% at 50% 30%, rgba(255,200,80,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── HILLS SILHOUETTE ───────────────────────────────────── */
+.hills { position: absolute; bottom: 0; inset: auto 0 0; z-index: 3; pointer-events: none; }
+
+/* ── TREE (single, on the left) ────────────────────────── */
+.home-tree { position: absolute; z-index: 8; pointer-events: none; }
+
+/* ── WOODEN BENCH ───────────────────────────────────────── */
+.bench-wrap {
+  position: absolute; bottom: 40%; left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  z-index: 10; cursor: none;
+}
+
+/* ── TWO COFFEE MUGS ────────────────────────────────────── */
+.mugs-wrap {
+  position: absolute; bottom: 41.5%; left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  z-index: 11; display: flex; gap: 12px; align-items: flex-end;
+}
+
+/* ── OPEN BOOK ──────────────────────────────────────────── */
+.book-wrap { position: absolute; z-index: 11; cursor: none; }
+
+/* ── MOTORCYCLE ──────────────────────────────────────────── */
+.home-moto { position: absolute; z-index: 9; }
+
+/* ── SLEEPING CAT ───────────────────────────────────────── */
+.home-cat {
+  position: absolute; z-index: 12; cursor: none;
+  animation: cat-breathe 4s ease-in-out infinite;
+}
+.home-cat.awake { animation: none; }
+
+/* ── BIRDS ───────────────────────────────────────────────── */
+.home-bird {
+  position: absolute; pointer-events: none; z-index: 5;
+  animation: bird-fly-home var(--dur,20s) linear var(--delay,0s) infinite;
+}
+@keyframes bird-fly-home {
+  from { transform: translateX(-100px); opacity: 0; }
+  5%   { opacity: 0.6; }
+  95%  { opacity: 0.5; }
+  to   { transform: translateX(110vw); opacity: 0; }
+}
+
+/* Clouds */
+.home-cloud {
+  position: absolute; border-radius: 50px;
+  background: rgba(255,255,255,0.6);
+  pointer-events: none; z-index: 4;
+  animation: home-cloud-drift var(--dur,35s) linear var(--delay,0s) infinite;
+}
+@keyframes home-cloud-drift {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120vw); }
+}
+
+/* ── THE FINAL MESSAGE ──────────────────────────────────── */
+.final-message {
+  position: absolute; top: 6%; left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 700px);
+  text-align: center; z-index: 20;
+  pointer-events: none;
+}
+
+.fm-line1 {
+  font-family: var(--font-display);
+  font-size: clamp(26px,5.5vw,64px);
+  color: rgba(255,240,200,0.95);
+  font-style: italic; line-height: 1.15;
+  text-shadow: 0 2px 20px rgba(107,44,10,0.4), 0 0 60px rgba(232,160,48,0.25);
+  opacity: 0; animation: slide-up 1.2s var(--ease-spring) 0.8s forwards;
+}
+.fm-sub {
+  font-family: var(--font-hand);
+  font-size: clamp(15px,2.2vw,24px);
+  color: rgba(255,230,180,0.8);
+  margin-top: 8px; line-height: 1.6;
+  opacity: 0; animation: fade-in 1s ease 2.2s forwards;
+}
+.fm-small {
+  font-family: var(--font-sub); font-style: italic;
+  font-size: clamp(13px,1.5vw,17px);
+  color: rgba(245,220,160,0.65);
+  margin-top: 10px;
+  opacity: 0; animation: fade-in 0.8s ease 3.2s forwards;
+}
+
+/* ── BENCH CLICK AREA ───────────────────────────────────── */
+.bench-click {
+  position: absolute; bottom: 38%; left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  width: 220px; height: 80px; z-index: 25; cursor: none;
+  opacity: 0;
+}
+
+/* ── FINAL MESSAGE CARD (appears on bench click) ─────── */
+.final-card {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 560px);
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.final-card.show { opacity: 1; pointer-events: auto; }
+
+.fc-paper {
+  background: linear-gradient(160deg, #FAF3E0, #F5EDD8);
+  border: 1px solid rgba(196,168,98,0.5);
+  border-radius: 8px;
+  padding: clamp(24px,4vw,44px) clamp(24px,4vw,48px);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
+  text-align: center; position: relative;
+  font-family: var(--font-body); color: var(--text-dark);
+  max-height: 80vh; overflow-y: auto;
+}
+.fc-heading {
+  font-family: var(--font-display); font-size: clamp(22px,3vw,32px);
+  color: var(--coffee); font-style: italic; margin-bottom: 20px;
+}
+.fc-placeholder {
+  background: rgba(255,249,220,0.8);
+  border: 1.5px dashed var(--gold); border-radius: 4px;
+  padding: 20px; font-family: var(--font-hand); font-size: 13px;
+  color: var(--gold-dark); min-height: 100px;
+  display: flex; flex-direction: column; gap: 8px;
+  align-items: center; justify-content: center; line-height: 1.8;
+  position: relative; z-index: 2;
+}
+.fc-placeholder .label {
+  font-family: var(--font-sub); font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.65;
+}
+.fc-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; cursor: none;
+  font-size: 18px; color: var(--text-muted); z-index: 50;
+  transition: color 0.2s;
+}
+.fc-close:hover { color: var(--coffee); }
+.fc-footer {
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px dashed rgba(196,168,98,0.3);
+  font-family: var(--font-hand); font-size: clamp(14px,1.8vw,18px);
+  color: var(--coffee); line-height: 1.8; position: relative; z-index: 2;
+}
+
+/* Hint text at bottom */
+.bench-hint {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-hand); font-size: 13px;
+  color: rgba(255,230,180,0.5); text-align: center;
+  z-index: 50; pointer-events: none;
+  opacity: 0; animation: fade-in 0.8s ease 4s forwards;
+}
+
+/* Scrollbar */
+.fc-paper::-webkit-scrollbar { width: 3px; }
+.fc-paper::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="home-scene" id="home-scene">
+
+  <!-- Hills SVG -->
+  <div class="hills">
+    <svg viewBox="0 0 1440 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
+      <!-- Back hills (lighter) -->
+      <path d="M0,200 Q200,120 400,160 Q600,200 800,130 Q1000,60 1200,140 Q1340,190 1440,160 L1440,360 L0,360 Z" fill="#4A6830" opacity="0.6"/>
+      <!-- Mid hills -->
+      <path d="M0,240 Q180,170 360,200 Q540,230 720,170 Q900,110 1080,180 Q1260,240 1440,200 L1440,360 L0,360 Z" fill="#3A5828" opacity="0.8"/>
+      <!-- Main hill (our hill) -->
+      <path d="M300,360 Q560,180 720,200 Q880,220 1100,360 Z" fill="#4A6830"/>
+      <path d="M360,360 Q580,200 720,210 Q860,220 1060,360 Z" fill="#5C7840"/>
+    </svg>
+  </div>
+
+  <!-- Single tree left -->
+  <div class="home-tree" style="left:12%;bottom:42%;">
+    <svg width="80" height="130" viewBox="0 0 80 130" fill="none">
+      <rect x="36" y="88" width="8" height="42" rx="3" fill="#6B4226"/>
+      <ellipse cx="40" cy="70" rx="30" ry="38" fill="#4A6830"/>
+      <ellipse cx="40" cy="58" rx="24" ry="30" fill="#5C7840"/>
+      <ellipse cx="40" cy="46" rx="18" ry="24" fill="#6B8B50"/>
+      <ellipse cx="40" cy="36" rx="12" ry="18" fill="#7A9E60"/>
+    </svg>
+  </div>
+
+  <!-- Motorcycle parked by tree -->
+  <div class="home-moto" style="left:18%;bottom:38%;" onclick="motoHomeClick(event)">
+    <svg width="130" height="66" viewBox="0 0 130 66" fill="none">
+      <path d="M32,42 L50,20 L78,20 L98,38 L108,42" stroke="#5C4A38" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="62" cy="22" rx="15" ry="7" fill="#6B4226" stroke="#5A3820" stroke-width="1.2"/>
+      <path d="M58,18 Q78,14 94,18 Q94,22 78,22 Q58,22 58,18Z" fill="#3D2010"/>
+      <path d="M50,18 L46,12 M50,18 L54,14" stroke="#8B6234" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="98" y1="25" x2="108" y2="44" stroke="#5C4A38" stroke-width="2" stroke-linecap="round"/>
+      <line x1="42" y1="32" x2="32" y2="44" stroke="#5C4A38" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="32" cy="48" r="15" fill="none" stroke="#3D2010" stroke-width="3.5"/>
+      <circle cx="32" cy="48" r="8"  fill="none" stroke="#5C4A38" stroke-width="1.8"/>
+      <circle cx="32" cy="48" r="2.5" fill="#8B6234"/>
+      <circle cx="108" cy="48" r="15" fill="none" stroke="#3D2010" stroke-width="3.5"/>
+      <circle cx="108" cy="48" r="8"  fill="none" stroke="#5C4A38" stroke-width="1.8"/>
+      <circle cx="108" cy="48" r="2.5" fill="#8B6234"/>
+      <!-- His helmet -->
+      <ellipse cx="78" cy="11" rx="9" ry="7"  fill="#6B4226" stroke="#5A3820" stroke-width="1"/>
+      <path d="M70,11 Q70,4 78,4 Q86,4 86,11" fill="#8B5E3C" opacity="0.5"/>
+      <!-- Her helmet (lavender) -->
+      <ellipse cx="96" cy="11" rx="9" ry="7"  fill="#C9B8E8" stroke="#9B85C9" stroke-width="1"/>
+      <path d="M88,11 Q88,4 96,4 Q104,4 96,11" fill="#E4DAF5" opacity="0.5"/>
+      <!-- Key swinging -->
+      <line x1="56" y1="26" x2="56" y2="35" stroke="#C4A862" stroke-width="1" stroke-linecap="round" style="animation:lavender-sway 2.5s ease-in-out infinite;transform-origin:56px 26px;"/>
+      <circle cx="56" cy="37" r="2" fill="#C4A862"/>
+    </svg>
+  </div>
+
+  <!-- Bench with two mugs -->
+  <div class="bench-wrap" id="bench" onclick="benchClick(event)">
+    <svg width="200" height="90" viewBox="0 0 200 90" fill="none">
+      <!-- Bench seat planks -->
+      <rect x="10" y="28" width="180" height="12" rx="3" fill="#8B6234"/>
+      <rect x="10" y="40" width="180" height="8"  rx="2" fill="#7A5530"/>
+      <!-- Back rest -->
+      <rect x="10" y="8"  width="180" height="10" rx="3" fill="#8B6234"/>
+      <rect x="10" y="18" width="180" height="6"  rx="2" fill="#7A5530"/>
+      <!-- Vertical supports (back) -->
+      <rect x="24" y="8" width="8" height="32" rx="2" fill="#9E7848"/>
+      <rect x="168" y="8" width="8" height="32" rx="2" fill="#9E7848"/>
+      <!-- Legs -->
+      <rect x="18"  y="48" width="8" height="38" rx="2" fill="#7A5530"/>
+      <rect x="174" y="48" width="8" height="38" rx="2" fill="#7A5530"/>
+      <rect x="60"  y="48" width="7" height="35" rx="2" fill="#7A5530"/>
+      <rect x="133" y="48" width="7" height="35" rx="2" fill="#7A5530"/>
+      <!-- Cross bar -->
+      <rect x="18" y="70" width="164" height="5" rx="2" fill="#6B4226"/>
+    </svg>
+  </div>
+
+  <!-- Two steaming mugs on bench -->
+  <div class="mugs-wrap">
+    <!-- His mug -->
+    <div onclick="mugHomeClick(event,'his')">
+      <svg width="32" height="38" viewBox="0 0 32 38" fill="none">
+        <ellipse cx="16" cy="35" rx="14" ry="3.5" fill="#8B6840" opacity="0.6"/>
+        <path d="M3,16 Q3,32 16,32 Q29,32 29,16 Z" fill="#6B4226"/>
+        <ellipse cx="16" cy="16" rx="13" ry="4" fill="#8B5E3C"/>
+        <ellipse cx="16" cy="16" rx="10" ry="2.8" fill="#3D1C08"/>
+        <path d="M29,20 Q37,20 37,27 Q37,34 29,31" stroke="#5A3520" fill="none" stroke-width="3" stroke-linecap="round"/>
+        <path d="M16,14 Q17,8 16,3"  stroke="#C9B8E8" fill="none" stroke-width="1.4" stroke-linecap="round" style="animation:steam-waft-2 2.8s ease-in-out 0.3s infinite;transform-origin:16px 14px;"/>
+        <path d="M10,15 Q11,9 10,4" stroke="#C9B8E8" fill="none" stroke-width="1.2" stroke-linecap="round" style="animation:steam-waft-1 2.8s ease-in-out 0s infinite;transform-origin:10px 15px;"/>
+      </svg>
+    </div>
+    <!-- Her mug (slightly larger, same warmth) -->
+    <div onclick="mugHomeClick(event,'hers')">
+      <svg width="34" height="40" viewBox="0 0 34 40" fill="none">
+        <ellipse cx="17" cy="37" rx="15" ry="3.8" fill="#8B6840" opacity="0.6"/>
+        <path d="M3,17 Q3,34 17,34 Q31,34 31,17 Z" fill="#8B5E3C"/>
+        <ellipse cx="17" cy="17" rx="14" ry="4.2" fill="#9E7040"/>
+        <ellipse cx="17" cy="17" rx="11" ry="3"   fill="#5A2E10"/>
+        <path d="M31,21 Q40,21 40,29 Q40,37 31,33" stroke="#6B4226" fill="none" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M17,15 Q18,8 17,3"  stroke="#C9B8E8" fill="none" stroke-width="1.5" stroke-linecap="round" style="animation:steam-waft-2 2.6s ease-in-out 0.5s infinite;transform-origin:17px 15px;"/>
+        <path d="M11,16 Q12,9 11,4"  stroke="#C9B8E8" fill="none" stroke-width="1.2" stroke-linecap="round" style="animation:steam-waft-1 2.6s ease-in-out 0s infinite;transform-origin:11px 16px;"/>
+        <path d="M23,15 Q22,9 23,4"  stroke="#C9B8E8" fill="none" stroke-width="1.2" stroke-linecap="round" style="animation:steam-waft-3 2.6s ease-in-out 1s infinite;transform-origin:23px 15px;"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Open book on bench -->
+  <div class="book-wrap" style="right:30%;bottom:40%;" onclick="bookHomeClick(event)">
+    <svg width="58" height="36" viewBox="0 0 58 36" fill="none">
+      <path d="M29,4 Q16,0 2,4 L2,32 Q16,28 29,32 Z" fill="#E8D0B8" stroke="rgba(196,168,98,0.4)" stroke-width="0.5"/>
+      <path d="M29,4 Q42,0 56,4 L56,32 Q42,28 29,32 Z" fill="#F0DCB8" stroke="rgba(196,168,98,0.4)" stroke-width="0.5"/>
+      <line x1="29" y1="4" x2="29" y2="32" stroke="rgba(196,168,98,0.4)" stroke-width="1"/>
+      <!-- Lines on pages -->
+      <line x1="6"  y1="12" x2="26" y2="10" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <line x1="6"  y1="17" x2="26" y2="15" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <line x1="6"  y1="22" x2="26" y2="20" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <line x1="32" y1="10" x2="54" y2="12" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <line x1="32" y1="15" x2="54" y2="17" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <line x1="32" y1="20" x2="54" y2="22" stroke="rgba(107,66,38,0.15)" stroke-width="0.8"/>
+      <!-- Lavender bookmark -->
+      <rect x="40" y="0" width="4" height="14" fill="#C9B8E8" rx="1"/>
+      <polygon points="38,14 44,14 41,18" fill="#C9B8E8"/>
+    </svg>
+  </div>
+
+  <!-- Sleeping cat on bench -->
+  <div class="home-cat" id="home-cat" style="left:52%;bottom:43%;" onclick="homeEndCatClick(event)">
+    <svg width="70" height="48" viewBox="0 0 70 48" fill="none" id="cat-svg-home">
+      <!-- Body -->
+      <ellipse cx="42" cy="34" rx="24" ry="12" fill="#C4A882"/>
+      <!-- Head -->
+      <circle cx="18" cy="28" r="12" fill="#C4A882"/>
+      <!-- Ears -->
+      <polygon points="9,17 14,9 20,17"  fill="#C4A882"/>
+      <polygon points="17,17 23,9 29,17" fill="#C4A882"/>
+      <polygon points="10,16 13,11 19,16" fill="#E8C4B8" opacity="0.6"/>
+      <polygon points="18,16 22,11 28,16" fill="#E8C4B8" opacity="0.6"/>
+      <!-- Eyes — CLOSED (sleeping) -->
+      <g id="cat-eyes-closed">
+        <path d="M10,28 Q14,24 18,28" stroke="#5C4A38" fill="none" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M18,28 Q22,24 26,28" stroke="#5C4A38" fill="none" stroke-width="1.3" stroke-linecap="round"/>
+      </g>
+      <!-- Eyes — OPEN (for easter egg, hidden) -->
+      <g id="cat-eyes-open" style="display:none;">
+        <circle cx="14" cy="27" r="3.5" fill="#5C4A38"/>
+        <circle cx="22" cy="27" r="3.5" fill="#5C4A38"/>
+        <circle cx="15" cy="26" r="1.2" fill="white"/>
+        <circle cx="23" cy="26" r="1.2" fill="white"/>
+      </g>
+      <circle cx="18" cy="32" r="1.4" fill="#E8A4A4"/>
+      <!-- Tail -->
+      <path d="M62,40 Q68,22 56,26 Q50,29 52,36" stroke="#C4A882" fill="none" stroke-width="5.5" stroke-linecap="round" style="animation:cat-tail 5.5s ease-in-out infinite;transform-origin:62px 40px;"/>
+      <!-- Paws -->
+      <ellipse cx="30" cy="44" rx="6" ry="2.8" fill="#B8947A" opacity="0.8"/>
+      <ellipse cx="42" cy="46" rx="6" ry="2.5" fill="#B8947A" opacity="0.8"/>
+    </svg>
+  </div>
+
+</div><!-- /home-scene -->
+
+<!-- ═══ FINAL MESSAGE ═══ -->
+<div class="final-message">
+  <div class="fm-line1">home is wherever<br>u are.</div>
+  <div class="fm-sub">not a place. a person. always u. ♡</div>
+  <div class="fm-small">✦ click the bench to sit with me for a moment ✦</div>
+</div>
+
+<!-- ═══ BIRDS ═══ -->
+<div id="home-birds" style="position:fixed;inset:0;pointer-events:none;z-index:6;"></div>
+
+<!-- ═══ CLOUDS ═══ -->
+<div id="home-clouds" style="position:fixed;inset:0 0 44% 0;pointer-events:none;z-index:4;overflow:hidden;"></div>
+
+<!-- Bench hint -->
+<div class="bench-hint">✦ click the bench ✦</div>
+
+<!-- Bench click area (invisible) -->
+<div class="bench-click" id="bench-click" onclick="benchClick(event)"></div>
+
+<!-- ═══ FINAL MESSAGE CARD ═══ -->
+<div class="final-card" id="final-card">
+  <div class="fc-paper">
+    <button class="fc-close" onclick="document.getElementById('final-card').classList.remove('show')">✕</button>
+    <div class="fc-heading">thank u for existing, raaani ♡</div>
+
+    <div class="fc-placeholder">
+      <span class="label">✦ Your Final Message — the goodbye ✦</span>
+      <p style="font-size:13px;line-height:1.85;margin-top:8px;">
+        Write your final words here — the last thing she reads before the website ends.<br><br>
+        Not dramatic. Just warm. The feeling of sitting beside someone in the quiet after saying everything important.<br><br>
+        Something like: "no matter where we are tonight, i'm with u." — but in your voice. Your words.
+      </p>
+    </div>
+
+    <div class="fc-footer">
+      the story doesn't end here.<br>
+      <span style="color:var(--lavender-dark);">it just pauses.</span><br>
+      <span style="font-size:clamp(12px,1.4vw,14px);color:var(--text-muted);margin-top:8px;display:block;">our story continues. always. ♡</span>
+    </div>
+  </div>
+</div>
+
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── BIRDS ──────────────────────────────────────────────── */
+(function(){
+  const c = document.getElementById('home-birds');
+  for(let i=0;i<6;i++){
+    const b=document.createElement('div');
+    b.className='home-bird';
+    b.textContent='🐦';
+    b.style.cssText=`top:${8+Math.random()*22}%;font-size:${10+Math.random()*8}px;--dur:${18+Math.random()*14}s;--delay:${-Math.random()*20}s;`;
+    c.appendChild(b);
+  }
+})();
+
+/* ── CLOUDS ─────────────────────────────────────────────── */
+(function(){
+  const c = document.getElementById('home-clouds');
+  [[180,45,'15%','36s','0s'],[120,32,'28%','48s','-18s'],[200,55,'8%','42s','-30s']].forEach(([w,h,top,dur,delay])=>{
+    const cl=document.createElement('div');
+    cl.className='home-cloud';
+    cl.style.cssText=`width:${w}px;height:${h}px;top:${top};--dur:${dur};--delay:${delay};`;
+    c.appendChild(cl);
+  });
+})();
+
+/* ── BENCH / MUGS / OBJECTS ─────────────────────────────── */
+function benchClick(e) {
+  burst(e.clientX, e.clientY, {count:14, colors:['#C9B8E8','#E8B4B8','#C4A862','#FFD580']});
+  launchPetals(10,'#E8B4B8');
+  document.getElementById('final-card').classList.add('show');
+  Store.pageComplete(10);
+}
+
+function mugHomeClick(e, who) {
+  e.stopPropagation();
+  const msgs = {
+    his:   'still warm ☕ — saved a sip for u',
+    hers:  'hers is always slightly bigger ☕ — some things are just right'
+  };
+  launchHearts(e.clientX, e.clientY, 5);
+  secretMessage(msgs[who], e.clientX, e.clientY-45, {color:'#FAF3E0'});
+}
+
+function bookHomeClick(e) {
+  e.stopPropagation();
+  secretMessage('she\'d be halfway through a new one already 📖', e.clientX, e.clientY-45, {color:'#FAF3E0'});
+}
+
+function motoHomeClick(e) {
+  e.stopPropagation();
+  burst(e.clientX, e.clientY, {count:12, colors:['#C9B8E8','#C4A862']});
+  secretMessage('her helmet was always waiting here 🏍️ ♡', e.clientX, e.clientY-50, {color:'#F0EBFA', duration:3000});
+}
+
+/* ── 60-SECOND CAT EASTER EGG ───────────────────────────── */
+let catWoke = false;
+setTimeout(() => {
+  if (catWoke) return;
+  catWoke = true;
+  const cat = document.getElementById('home-cat');
+  const eyesClosed = document.getElementById('cat-eyes-closed');
+  const eyesOpen   = document.getElementById('cat-eyes-open');
+
+  // Cat wakes up
+  cat.classList.add('awake');
+  cat.style.transition = 'transform 0.5s var(--ease-spring)';
+  cat.style.transform  = 'translateY(-8px)';
+
+  // Eyes open
+  eyesClosed.style.display = 'none';
+  eyesOpen.style.display   = 'block';
+
+  // Small heart
+  setTimeout(() => {
+    launchHearts(
+      cat.getBoundingClientRect().left + 35,
+      cat.getBoundingClientRect().top,
+      2
+    );
+  }, 300);
+
+  // Cat looks at sunrise
+  setTimeout(() => {
+    secretMessage('🐾 she woke up. saw the sunrise. approved. went back to sleep.', window.innerWidth/2, window.innerHeight*0.35, {
+      color:'#FAF3E0', duration:4000
+    });
+  }, 500);
+
+  // Cat goes back to sleep
+  setTimeout(() => {
+    eyesClosed.style.display = 'block';
+    eyesOpen.style.display   = 'none';
+    cat.style.transform = 'translateY(0)';
+    cat.classList.remove('awake');
+    cat.style.animation = 'cat-breathe 4s ease-in-out infinite';
+  }, 3500);
+}, 60000);
+
+/* ── HOME CAT CLICK ─────────────────────────────────────── */
+let homeEndClicks = 0;
+function homeEndCatClick(e) {
+  homeEndClicks++;
+  const msgs = [
+    'pspspsps 🐾',
+    'she purrs when ur name is said. cats know. 🐾',
+    'some beings just know where home is 🏡',
+    '♡ forever the same cat ✦'
+  ];
+  secretMessage(msgs[homeEndClicks % msgs.length], e.clientX, e.clientY-40, {color:'#FAF3E0'});
+  launchHearts(e.clientX, e.clientY, 3);
+}
+
+// Fade in petals on arrival
+setTimeout(() => {
+  launchPetals(15, '#E8B4B8');
+  setTimeout(() => launchPetals(10,'#C9B8E8'), 1200);
+}, 1500);
+
+Store.pageComplete(10);
+</script>
+</body>
+</html>

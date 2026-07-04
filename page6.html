@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>our tomorrows ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+<style>
+body { overflow: hidden; background: #D4E8C8; }
+
+/* ── MORNING SCENE ──────────────────────────────────────── */
+.morning-scene {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg,
+    #FDE8C0 0%, #FDDAA0 20%, #F5C870 35%,
+    #E8D4A0 35.1%, #D4C890 55%,
+    #8B9E78 55.1%, #7A8E68 100%);
+  overflow: hidden;
+}
+
+/* Morning sun glow */
+.morning-scene::before {
+  content: ''; position: absolute;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,220,120,0.7) 0%, rgba(255,180,60,0.3) 40%, transparent 70%);
+  top: -60px; left: 50%; transform: translateX(-50%);
+  filter: blur(20px); pointer-events: none; z-index: 1;
+}
+
+/* Sky layer */
+.sky { position: absolute; inset: 0 0 45% 0; overflow: hidden; }
+
+/* Horizon glow */
+.horizon-glow {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+  background: linear-gradient(180deg, transparent, rgba(255,200,80,0.35));
+  pointer-events: none;
+}
+
+/* Ground / meadow */
+.ground {
+  position: absolute; bottom: 0; inset: auto 0 0;
+  height: 45%;
+  background: linear-gradient(180deg, #8B9E78 0%, #7A8E68 40%, #6A7E58 100%);
+}
+.ground::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px),
+    repeating-linear-gradient(180deg, transparent, transparent 20px, rgba(0,0,0,0.015) 20px, rgba(0,0,0,0.015) 21px);
+}
+
+/* Path on ground */
+.path {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 100%; pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(196,168,98,0.15) 100%);
+  clip-path: polygon(35% 0%, 65% 0%, 90% 100%, 10% 100%);
+}
+
+/* ── CLOUDS ─────────────────────────────────────────────── */
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,0.75);
+  border-radius: 50px;
+  animation: cloud-drift var(--dur, 28s) linear var(--delay, 0s) infinite;
+  pointer-events: none;
+}
+.cloud::before, .cloud::after {
+  content: ''; position: absolute;
+  background: rgba(255,255,255,0.75); border-radius: 50%;
+}
+@keyframes cloud-drift {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120vw); }
+}
+
+/* Birds */
+.bird {
+  position: absolute;
+  font-size: var(--fs, 12px);
+  animation: bird-fly var(--dur, 18s) linear var(--delay, 0s) infinite;
+  pointer-events: none; opacity: 0.6;
+}
+@keyframes bird-fly {
+  from { transform: translateX(-80px) translateY(0); }
+  to   { transform: translateX(110vw)  translateY(var(--dy, -20px)); }
+}
+
+/* ── TREE ──────────────────────────────────────────────── */
+.tree-wrap {
+  position: absolute; z-index: 8;
+  pointer-events: none;
+}
+
+/* ── THE MAP ─────────────────────────────────────────────── */
+.dream-map {
+  position: absolute;
+  bottom: 38%; left: 50%;
+  transform: translate(-50%, 50%);
+  width: min(92vw, 880px);
+  z-index: 10;
+}
+
+.map-paper {
+  background: linear-gradient(160deg, #F5EDD8, #EDE0C8);
+  border: 1px solid rgba(196,168,98,0.5);
+  border-radius: 8px;
+  padding: clamp(16px,3vw,28px) clamp(16px,3vw,32px);
+  box-shadow: var(--shadow-warm), inset 0 0 20px rgba(196,168,98,0.05);
+  position: relative;
+}
+
+/* Map paper texture */
+.map-paper::before {
+  content: ''; position: absolute; inset: 0; border-radius: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Rolled edge effect */
+.map-paper::after {
+  content: ''; position: absolute; inset: 0; border-radius: 8px;
+  box-shadow: inset 4px 0 8px rgba(107,66,38,0.06), inset -4px 0 8px rgba(107,66,38,0.06);
+  pointer-events: none;
+}
+
+.map-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px,3vw,32px);
+  color: var(--coffee); font-style: italic;
+  text-align: center; margin-bottom: 4px;
+  position: relative; z-index: 2;
+}
+.map-subtitle {
+  font-family: var(--font-hand); font-size: clamp(12px,1.5vw,15px);
+  color: var(--text-light); text-align: center; margin-bottom: 20px;
+  position: relative; z-index: 2;
+}
+
+/* Map grid of destinations */
+.destinations {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(150px,40vw), 1fr));
+  gap: clamp(10px,2vw,18px);
+  position: relative; z-index: 2;
+}
+
+/* Individual destination card */
+.dest {
+  background: var(--warm-white);
+  border: 1px solid rgba(196,168,98,0.3);
+  border-radius: 6px;
+  padding: 14px 12px;
+  text-align: center;
+  cursor: none;
+  transition: all 0.3s var(--ease-spring);
+  position: relative;
+  box-shadow: var(--shadow-lift);
+}
+.dest:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--gold);
+  z-index: 10;
+}
+.dest.visited { background: var(--lavender-pale); border-color: var(--lavender); }
+.dest.visited .dest-pin { color: var(--lavender-dark); }
+
+.dest-icon { font-size: clamp(20px,3vw,28px); display: block; margin-bottom: 6px; }
+.dest-name {
+  font-family: var(--font-sub); font-weight: 600;
+  font-size: clamp(12px,1.4vw,14px); color: var(--text-dark);
+  margin-bottom: 4px;
+}
+.dest-note {
+  font-family: var(--font-hand); font-size: clamp(10px,1.2vw,12px);
+  color: var(--text-muted); line-height: 1.5;
+}
+.dest-pin {
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  font-size: 16px; color: var(--rose-dark);
+}
+
+/* ── MOTORCYCLE (special destination) ───────────────────── */
+.moto-section {
+  margin-top: 20px; position: relative; z-index: 2;
+  border-top: 1px dashed rgba(196,168,98,0.4);
+  padding-top: 16px;
+  display: flex; align-items: center; gap: 20px;
+  flex-wrap: wrap;
+}
+
+.moto-illo {
+  flex-shrink: 0;
+  cursor: none;
+  transition: transform 0.3s var(--ease-spring);
+}
+.moto-illo:hover { transform: translateX(8px); }
+
+.moto-text {
+  flex: 1; min-width: 180px;
+}
+.moto-heading {
+  font-family: var(--font-display); font-size: clamp(16px,2vw,20px);
+  color: var(--coffee); font-style: italic; margin-bottom: 8px;
+}
+.moto-placeholder {
+  background: rgba(255,249,220,0.8);
+  border: 1.5px dashed var(--gold);
+  border-radius: 4px; padding: 12px 14px;
+  font-family: var(--font-hand); font-size: 12px;
+  color: var(--gold-dark); min-height: 60px;
+  display: flex; flex-direction: column; gap: 4px;
+  justify-content: center;
+}
+.moto-placeholder .label {
+  font-family: var(--font-sub); font-size: 8px;
+  letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.65;
+}
+
+/* Floating butterflies */
+.butterfly {
+  position: fixed;
+  font-size: var(--fs, 14px);
+  animation: butterfly-float var(--dur, 8s) ease-in-out var(--delay, 0s) infinite;
+  pointer-events: none; opacity: 0.55; z-index: 3;
+}
+@keyframes butterfly-float {
+  0%   { transform: translate(0,0) rotate(0deg); }
+  25%  { transform: translate(var(--dx1,20px), var(--dy1,-30px)) rotate(10deg); }
+  50%  { transform: translate(var(--dx2,-15px), var(--dy2,-50px)) rotate(-8deg); }
+  75%  { transform: translate(var(--dx3,25px), var(--dy3,-20px)) rotate(5deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+/* ── DESTINATION TOOLTIP ────────────────────────────────── */
+.dest-popup {
+  position: fixed; z-index: 300;
+  background: var(--parchment);
+  border: 1px solid var(--lavender);
+  border-radius: 10px;
+  padding: 14px 18px;
+  max-width: 260px;
+  box-shadow: var(--shadow-warm);
+  font-family: var(--font-hand);
+  font-size: 13px; color: var(--text-dark);
+  line-height: 1.7;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.dest-popup.show { opacity: 1; }
+.dest-popup .pop-label {
+  font-family: var(--font-sub); font-size: 9px;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+
+/* ── CONTINUE ──────────────────────────────────────────── */
+.p6-continue {
+  position: fixed; bottom: 28px; right: 36px;
+  z-index: 200; opacity: 0; transition: opacity 0.8s ease;
+}
+.p6-continue.show { opacity: 1; }
+
+@media (max-width: 640px) {
+  .destinations { grid-template-columns: repeat(2, 1fr); }
+  .moto-section { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<canvas id="dust-canvas"></canvas>
+
+<div class="morning-scene" id="scene">
+  <div class="sky" id="sky">
+    <div class="horizon-glow"></div>
+    <!-- Clouds generated by JS -->
+  </div>
+
+  <!-- Ground -->
+  <div class="ground"><div class="path"></div></div>
+
+  <!-- Tree (left) -->
+  <div class="tree-wrap" style="left:5%;bottom:42%;z-index:6;">
+    <svg width="80" height="120" viewBox="0 0 80 120" fill="none">
+      <rect x="35" y="80" width="10" height="40" rx="3" fill="#8B6234"/>
+      <ellipse cx="40" cy="65" rx="28" ry="35" fill="#6B8B58"/>
+      <ellipse cx="40" cy="55" rx="22" ry="28" fill="#7A9E68"/>
+      <ellipse cx="40" cy="45" rx="16" ry="22" fill="#8BAE78"/>
+    </svg>
+  </div>
+
+  <!-- Tree (right) -->
+  <div class="tree-wrap" style="right:6%;bottom:43%;z-index:6;">
+    <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
+      <rect x="26" y="60" width="8" height="30" rx="2" fill="#8B6234"/>
+      <ellipse cx="30" cy="48" rx="22" ry="28" fill="#6B8B58"/>
+      <ellipse cx="30" cy="38" rx="17" ry="22" fill="#7A9E68"/>
+      <ellipse cx="30" cy="30" rx="12" ry="16" fill="#8BAE78"/>
+    </svg>
+  </div>
+
+</div><!-- /morning-scene -->
+
+<!-- The Dream Map (overlaid) -->
+<div class="dream-map">
+  <div class="map-paper" id="map-paper">
+    <div class="map-title">our tomorrows</div>
+    <div class="map-subtitle">✦ places we haven't been yet · things we haven't done yet · us we haven't been yet ✦</div>
+
+    <!-- Destination grid -->
+    <div class="destinations" id="destinations">
+      <!-- Destinations rendered by JS -->
+    </div>
+
+    <!-- Divider -->
+    <div class="moto-section">
+      <!-- Motorcycle illustration -->
+      <div class="moto-illo" onclick="motoClick(event)" id="moto">
+        <svg width="160" height="80" viewBox="0 0 160 80" fill="none">
+          <!-- Main frame -->
+          <path d="M40,50 L60,25 L95,25 L120,45 L130,50" stroke="#5C4A38" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Fuel tank -->
+          <ellipse cx="78" cy="28" rx="18" ry="8" fill="#6B4226" stroke="#5A3820" stroke-width="1.5"/>
+          <!-- Seat -->
+          <path d="M75,22 Q95,18 115,22 Q115,26 95,26 Q75,26 75,22Z" fill="#3D2010"/>
+          <!-- Handlebars -->
+          <path d="M60,22 L55,14 M60,22 L65,16" stroke="#8B6234" stroke-width="2" stroke-linecap="round"/>
+          <!-- Front fork -->
+          <line x1="120" y1="30" x2="130" y2="52" stroke="#5C4A38" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Back fork -->
+          <line x1="50" y1="38" x2="38" y2="52" stroke="#5C4A38" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Wheels -->
+          <circle cx="38" cy="56" r="18" fill="none" stroke="#3D2010" stroke-width="4"/>
+          <circle cx="38" cy="56" r="10" fill="none" stroke="#5C4A38" stroke-width="2"/>
+          <circle cx="38" cy="56" r="3"  fill="#8B6234"/>
+          <circle cx="130" cy="56" r="18" fill="none" stroke="#3D2010" stroke-width="4"/>
+          <circle cx="130" cy="56" r="10" fill="none" stroke="#5C4A38" stroke-width="2"/>
+          <circle cx="130" cy="56" r="3"  fill="#8B6234"/>
+          <!-- Exhaust pipe -->
+          <path d="M50,48 Q40,52 30,58" stroke="#8B6234" stroke-width="2" stroke-linecap="round"/>
+          <!-- Helmet 1 (his) -->
+          <ellipse cx="95" cy="14" rx="10" ry="8" fill="#6B4226" stroke="#5A3820" stroke-width="1"/>
+          <path d="M86,14 Q86,6 95,6 Q104,6 104,14" fill="#8B5E3C" opacity="0.5"/>
+          <!-- Helmet 2 (hers) — the spare waiting -->
+          <ellipse cx="115" cy="14" rx="10" ry="8" fill="#C9B8E8" stroke="#9B85C9" stroke-width="1"/>
+          <path d="M106,14 Q106,6 115,6 Q124,6 124,14" fill="#E4DAF5" opacity="0.5"/>
+          <!-- Key swinging -->
+          <line x1="68" y1="34" x2="68" y2="44" stroke="#C4A862" stroke-width="1.2" stroke-linecap="round" style="animation:lavender-sway 2s ease-in-out infinite;transform-origin:68px 34px;"/>
+          <circle cx="68" cy="46" r="2.5" fill="#C4A862"/>
+          <circle cx="68" cy="46" r="1"   fill="#D4B862"/>
+        </svg>
+      </div>
+
+      <div class="moto-text">
+        <div class="moto-heading">the ride i keep thinking about</div>
+        <div class="moto-placeholder">
+          <span class="label">✦ Bike / Internship section ✦</span>
+          <p>Write about the bike rides you're missing, her sitting behind you, the helmet waiting for her, when internships end — all of it, in your voice.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /map-paper -->
+</div><!-- /dream-map -->
+
+<!-- Destination popup tooltip -->
+<div class="dest-popup" id="dest-popup">
+  <div class="pop-label">✦ future memory ✦</div>
+  <div id="popup-text"></div>
+</div>
+
+<!-- Butterflies (generated by JS) -->
+
+<!-- Continue -->
+<div class="p6-continue" id="p6-continue">
+  <button style="background:none;border:none;cursor:none;" onclick="goTo('page7.html')">
+    <div style="font-family:var(--font-hand);font-size:12px;color:var(--text-light);margin-bottom:6px;text-align:right;">one more thing to tell u...</div>
+    <div style="background:var(--coffee);color:var(--cream);padding:12px 26px;border-radius:30px;font-family:var(--font-hand);font-size:16px;box-shadow:var(--shadow-warm);transition:transform 0.3s;"
+         onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      my promises ♡
+    </div>
+  </button>
+</div>
+
+<!-- Music -->
+<div class="music-invite" id="music-invite"><div class="music-invite-card" onclick="Audio$.play()"><p>✦ tap to play our song...</p><small>Wada Karo</small></div></div>
+<div class="music-player" id="music-player"><div class="music-player-inner"><div class="vinyl-disc-wrap" id="vinyl"></div><button id="music-toggle" class="music-btn">▶</button><span class="music-song-name">Wada Karo...</span></div></div>
+
+<script src="js/global.js"></script>
+<script>
+'use strict';
+
+/* ── DESTINATION DATA ──────────────────────────────────── */
+const DESTS = [
+  { icon:'☕', name:'BLR Canteen',    note:'filter coffee. always. our table.',         secret:'our goto forever ✦' },
+  { icon:'📚', name:'Bookstore date', note:'u wont let me leave without 3 books',       secret:'u take 45 mins to choose one book and i love it' },
+  { icon:'🎬', name:'Movie night',    note:'popcorn fight guaranteed',                  secret:'u will cry. i will pretend not to.' },
+  { icon:'🚶', name:'Late night walk',note:'no destination, just talking',              secret:'these r my favourite nights with u' },
+  { icon:'🐱', name:'Cat café',       note:'u will forget i exist',                     secret:'every cat picks u first. every time.' },
+  { icon:'🌅', name:'That hilltop',   note:'again, but longer this time',               secret:'that sunset deserves a second visit' },
+  { icon:'🍳', name:'Cook together',  note:'i will somehow make it worse',              secret:'but u will laugh and that makes it perfect' },
+  { icon:'🌧️', name:'Watch the rain', note:'from somewhere warm, both of us',           secret:'the best conversations happen in rain' },
+  { icon:'📖', name:'Read together',  note:'same room, different books, same vibe',     secret:'the quietest kind of love' },
+  { icon:'✈️', name:'Somewhere new',  note:'anywhere, as long as u r there',            secret:'i dont care where. i just want us to go.' },
+];
+
+/* ── RENDER DESTINATIONS ───────────────────────────────── */
+const grid = document.getElementById('destinations');
+DESTS.forEach((d, i) => {
+  const el = document.createElement('div');
+  el.className = 'dest';
+  el.innerHTML = `
+    <div class="dest-pin">📍</div>
+    <span class="dest-icon">${d.icon}</span>
+    <div class="dest-name">${d.name}</div>
+    <div class="dest-note">${d.note}</div>
+  `;
+  el.addEventListener('click', e => showDestPopup(e, d, el));
+  setTimeout(() => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(12px)';
+    el.style.transition = `opacity 0.4s ease ${i*0.06}s, transform 0.4s ease ${i*0.06}s`;
+    requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; });
+  }, 100);
+  grid.appendChild(el);
+});
+
+/* ── DESTINATION POPUP ─────────────────────────────────── */
+let popupTimer = null;
+function showDestPopup(e, d, el) {
+  e.stopPropagation();
+  el.classList.add('visited');
+  burst(e.clientX, e.clientY, {count:10, colors:['#C9B8E8','#E8B4B8','#C4A862']});
+
+  const pop = document.getElementById('dest-popup');
+  document.getElementById('popup-text').textContent = d.secret;
+  pop.style.left = Math.min(e.clientX + 12, window.innerWidth - 280) + 'px';
+  pop.style.top  = Math.max(e.clientY - 60, 10) + 'px';
+  pop.classList.add('show');
+
+  clearTimeout(popupTimer);
+  popupTimer = setTimeout(() => pop.classList.remove('show'), 2500);
+
+  Store.discover('dest_' + d.name);
+  checkDestProgress();
+}
+
+/* ── CLOUDS ────────────────────────────────────────────── */
+(function() {
+  const sky = document.getElementById('sky');
+  const configs = [
+    { width:180, height:50, top:'12%', dur:'32s', delay:'0s' },
+    { width:120, height:35, top:'22%', dur:'44s', delay:'-15s' },
+    { width:200, height:60, top:'8%',  dur:'38s', delay:'-28s' },
+    { width:90,  height:28, top:'30%', dur:'26s', delay:'-10s' },
+  ];
+  configs.forEach(c => {
+    const cl = document.createElement('div');
+    cl.className = 'cloud';
+    cl.style.cssText = `width:${c.width}px;height:${c.height}px;top:${c.top};--dur:${c.dur};--delay:${c.delay};`;
+    cl.style.setProperty('--dur', c.dur);
+    cl.style.setProperty('--delay', c.delay);
+    sky.appendChild(cl);
+  });
+})();
+
+/* ── BIRDS ─────────────────────────────────────────────── */
+(function() {
+  for (let i = 0; i < 5; i++) {
+    const b = document.createElement('div');
+    b.className = 'bird';
+    b.textContent = '🐦';
+    b.style.cssText = `top:${8+Math.random()*20}%;--dur:${16+Math.random()*12}s;--delay:${-Math.random()*20}s;--fs:${10+Math.random()*8}px;--dy:${(Math.random()-0.5)*30}px;`;
+    document.querySelector('.sky').appendChild(b);
+  }
+})();
+
+/* ── BUTTERFLIES ───────────────────────────────────────── */
+(function() {
+  const butterflies = ['🦋','🦋','🌸'];
+  butterflies.forEach((b, i) => {
+    const el = document.createElement('div');
+    el.className = 'butterfly';
+    el.textContent = b;
+    el.style.cssText = `
+      left:${20+i*25}%; top:${50+Math.random()*20}%;
+      --fs:${14+Math.random()*8}px;
+      --dur:${7+Math.random()*5}s;
+      --delay:${Math.random()*4}s;
+      --dx1:${(Math.random()-0.5)*60}px; --dy1:${-20-Math.random()*30}px;
+      --dx2:${(Math.random()-0.5)*80}px; --dy2:${-30-Math.random()*40}px;
+      --dx3:${(Math.random()-0.5)*50}px; --dy3:${-10-Math.random()*20}px;
+    `;
+    document.body.appendChild(el);
+  });
+})();
+
+/* ── MOTORCYCLE CLICK ──────────────────────────────────── */
+function motoClick(e) {
+  burst(e.clientX, e.clientY, {count:14, colors:['#C9B8E8','#C4A862','#E8B4B8']});
+  secretMessage('one helmet is always waiting for u 🏍️', e.clientX, e.clientY-50, {color:'#F0EBFA', duration:3000});
+  Store.discover('moto_click');
+  checkDestProgress();
+}
+
+/* ── PROGRESS → CONTINUE ───────────────────────────────── */
+function checkDestProgress() {
+  const visited = Store.get().discoveries.filter(d => d.startsWith('dest_') || d === 'moto_click').length;
+  if (visited >= 3) {
+    document.getElementById('p6-continue').classList.add('show');
+    Store.pageComplete(6);
+  }
+}
+
+// Show continue after 20s regardless
+setTimeout(() => {
+  document.getElementById('p6-continue').classList.add('show');
+  Store.pageComplete(6);
+}, 20000);
+
+// Close popup on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.dest')) document.getElementById('dest-popup').classList.remove('show');
+});
+</script>
+</body>
+</html>
