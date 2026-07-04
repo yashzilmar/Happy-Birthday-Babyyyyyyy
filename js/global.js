@@ -472,7 +472,7 @@ window.secretMessage = secretMessage;
     'page3.html': 'page4.html',
     'page4.html': 'page5.html',
     'page5.html': 'page6.html',
-    'page6.html': 'page8.html',
+    'page6.html': 'page7.html',
     'page7.html': 'page8.html',
     'page8.html': 'page9.html',
     'page9.html': 'page10.html',
@@ -485,7 +485,7 @@ window.secretMessage = secretMessage;
     'page4.html': 'the letter 💌',
     'page5.html': 'our tomorrows ✦',
     'page6.html': 'happy birthday my raaaani ✦',
-    'page7.html': null,
+    'page7.html': 'happy birthday ✦',
     'page8.html': 'one last thing...',
     'page9.html': 'come home ✦',
     'page10.html': null
