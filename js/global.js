@@ -472,7 +472,7 @@ window.secretMessage = secretMessage;
     'page3.html': 'page4.html',
     'page4.html': 'page5.html',
     'page5.html': 'page6.html',
-    'page6.html': 'page7.html',
+    'page6.html': 'page8.html',
     'page7.html': 'page8.html',
     'page8.html': 'page9.html',
     'page9.html': 'page10.html',
