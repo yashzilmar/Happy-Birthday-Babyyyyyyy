@@ -467,7 +467,7 @@ window.secretMessage = secretMessage;
    ============================================================ */
 (function() {
   const PAGE_ROUTES = {
-    'index.html': null,      // envelope handles this
+    'index.html': null,
     'page2.html': 'page3.html',
     'page3.html': 'page4.html',
     'page4.html': 'page5.html',
@@ -478,17 +478,19 @@ window.secretMessage = secretMessage;
     'page9.html': 'page10.html',
     'page10.html': null
   };
+
   const PAGE_LABELS = {
     'page2.html': 'open our scrapbook ✦',
     'page3.html': 'our little world ✦',
     'page4.html': 'the letter 💌',
     'page5.html': 'our tomorrows ✦',
-    'page6.html': 'my promises ♡',
-    'page7.html': 'happy birthday ✦',
+    'page6.html': 'happy birthday my raaaani ✦',
+    'page7.html': null,
     'page8.html': 'one last thing...',
     'page9.html': 'come home ✦',
     'page10.html': null
   };
+})();
 
   document.addEventListener('DOMContentLoaded', () => {
     const file = window.location.pathname.split('/').pop() || 'index.html';
