@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>happy birthday my raaaniiii ♡</title>
+<title>Happy birthday my Loveeeeeee ♡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/global.css">
@@ -60,46 +60,6 @@ body { overflow: hidden; background: #2A1608; }
   font-size: var(--fs,18px); pointer-events: none; z-index: 5;
 }
 
-/* ── GODDESS PHOTOS (her solo shots — special treatment) ─ */
-.goddess-photo {
-  position: absolute; z-index: 15;
-  cursor: none;
-  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease, z-index 0s;
-}
-.goddess-photo:hover {
-  z-index: 50;
-}
-
-.goddess-frame {
-  background: white;
-  padding: 8px 8px 30px;
-  box-shadow: 0 8px 32px rgba(107,66,38,0.3), 0 2px 8px rgba(107,66,38,0.15);
-  transform: var(--rot, rotate(-2deg));
-  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
-  position: relative;
-}
-.goddess-photo:hover .goddess-frame {
-  transform: var(--rot, rotate(-2deg)) scale(1.07) translateY(-10px);
-  box-shadow: 0 16px 56px rgba(107,66,38,0.4);
-}
-.goddess-frame img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
-}
-.goddess-frame .cap {
-  position: absolute; bottom: 6px; left: 0; right: 0;
-  text-align: center; font-family: var(--font-hand);
-  font-size: clamp(10px,1.2vw,12px); color: var(--text-light);
-  padding: 0 8px;
-}
-
-/* Gold frame accent on goddess photos */
-.goddess-frame::after {
-  content: '';
-  position: absolute; inset: 3px;
-  border: 1px solid rgba(196,168,98,0.25);
-  pointer-events: none;
-}
-
 /* ── MAIN BIRTHDAY TITLE ────────────────────────────────── */
 .birthday-title {
   position: absolute; top: 5vh; left: 50%; transform: translateX(-50%);
@@ -132,7 +92,7 @@ body { overflow: hidden; background: #2A1608; }
 
 /* ── MAIN BIRTHDAY MESSAGE ──────────────────────────────── */
 .bday-message-area {
-  position: absolute; bottom: 52%; left: 50%;
+  position: absolute; bottom: 52%; left: 15%;
   transform: translate(-50%, 50%);
   width: min(90vw, 620px);
   z-index: 20;
@@ -197,7 +157,6 @@ body { overflow: hidden; background: #2A1608; }
 .bday-card::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
 @media (max-width: 640px) {
-  .goddess-photo { display: none; }
   .bday-message-area { bottom: 48%; }
 }
 </style>
@@ -221,40 +180,6 @@ body { overflow: hidden; background: #2A1608; }
   <div class="ground-flower" style="right:18%;--fs:16px;">🌼</div>
   <div class="ground-flower" style="right:30%;--fs:22px;">✿</div>
 
-  <!-- ═══ HER PHOTOS (goddess treatment) ═══ -->
-
-  <!-- s4: coffee mug — brown eyes — left side -->
-  <div class="goddess-photo" style="left:2%;top:38%;z-index:15;" onclick="goddessClick('s4',event)">
-    <div class="goddess-frame" style="width:clamp(90px,11vw,140px);height:clamp(100px,12vw,150px);--rot:rotate(-3deg);">
-      <img src="images/solo/s4_coffee_mug.jpg" alt="her" loading="lazy">
-      <div class="cap">☕ my favourite view</div>
-    </div>
-  </div>
-
-  <!-- s2: cat on street — right side -->
-  <div class="goddess-photo" style="right:2%;top:35%;z-index:15;" onclick="goddessClick('s2',event)">
-    <div class="goddess-frame" style="width:clamp(80px,10vw,125px);height:clamp(90px,11vw,135px);--rot:rotate(2.5deg);">
-      <img src="images/solo/s2_cat_street.jpg" alt="her" loading="lazy">
-      <div class="cap">🐾 purest joy</div>
-    </div>
-  </div>
-
-  <!-- s1: pink flowers — far left -->
-  <div class="goddess-photo" style="left:1%;top:68%;z-index:15;" onclick="goddessClick('s1',event)">
-    <div class="goddess-frame" style="width:clamp(80px,9vw,115px);height:clamp(90px,10vw,125px);--rot:rotate(-2deg);">
-      <img src="images/solo/s1_flowers_pink.jpg" alt="her" loading="lazy">
-      <div class="cap">🌸 her smile ♡</div>
-    </div>
-  </div>
-
-  <!-- s5: cat cafe — far right -->
-  <div class="goddess-photo" style="right:1%;top:66%;z-index:15;" onclick="goddessClick('s5',event)">
-    <div class="goddess-frame" style="width:clamp(80px,10vw,125px);height:clamp(90px,11vw,135px);--rot:rotate(2deg);">
-      <img src="images/solo/s5_cat_cafe.jpg" alt="her" loading="lazy">
-      <div class="cap">✦ she's the goddess</div>
-    </div>
-  </div>
-
 </div><!-- /scene -->
 
 <!-- ═══ LANTERNS (floating above scene) ═══ -->
@@ -265,7 +190,7 @@ body { overflow: hidden; background: #2A1608; }
 
 <!-- ═══ BIRTHDAY TITLE ═══ -->
 <div class="birthday-title">
-  <div class="bday-main">happy birthday<br><em>my raaaniiii</em></div>
+  <div class="bday-main">Happy birthday<br><em>my Loveeeeeee</em></div>
   <div class="bday-sub">21 years of the world being a better place ♡</div>
 </div>
 
@@ -274,8 +199,17 @@ body { overflow: hidden; background: #2A1608; }
   <div class="bday-card">
     <span class="bday-card-icon">🎂</span>
     <div class="bday-placeholder">
-      <span class="label">✦ Your Birthday Wish — the biggest one ✦</span>
-      <p style="font-size:13px;line-height:1.8;margin-top:8px;">Write your main birthday message here — everything u want to say to her on this night. This is the centrepiece of page 8. Make it ur voice.</p>
+      <span class="label">✦ Your Birthday Wish? Tell me please ✦</span>
+      <p style="font-size:13px;line-height:1.8;margin-top:8px;">I dont just want today to be a day where everyone tells u happy birthday n then it passes like every other day. 
+        I want u to remember that somewhere at midnight, there is a boy sitting here thinking how insane it is that u exist n somehow u became his favourite part of life. 
+        Like out of every person, every place, every random thing that could have happened, i got u. 
+        N AAAAAAAA i still dont know how i got this lucky. 
+        I miss u so fucking much these days n i wish i could just appear at ur door with coffee, a tiny cake, a book u would love n a helmet in my hand so u could come sit behind me n we could disappear on one of our random rides. 
+        But till i can do that, i want this to stay with u. U r not just my birthday girl today, u r my baby, my peace, my favourite notification, my safest place n the person i wanna keep choosing even when life gets busy n annoying. 
+        I hope 21 gives u moments that feel like warm coffee, old songs, cats sleeping near u, books u cant put down n love that never makes u question if it is real. 
+        N i hope every time u feel even a little alone, u remember that i am somewhere loving u like crazy. 
+        Happy birthday cutuuuuuu. 
+        I loooovvvveeeeeee yooouuuuuuuuuu maaaajhiiii raaaaaaniiiiii 💗</p>
     </div>
   </div>
 </div>
@@ -286,7 +220,7 @@ body { overflow: hidden; background: #2A1608; }
     <div style="font-family:var(--font-hand);font-size:12px;color:rgba(255,240,200,0.6);margin-bottom:6px;text-align:right;">one last thing...</div>
     <div id="continue-btn-8" style="background:rgba(255,240,200,0.15);border:1px solid rgba(255,220,120,0.4);color:rgba(255,240,200,0.9);padding:12px 26px;border-radius:30px;font-family:var(--font-hand);font-size:16px;box-shadow:0 4px 20px rgba(232,160,48,0.2);transition:all 0.3s;"
          onmouseover="this.style.background='rgba(255,220,120,0.25)'" onmouseout="this.style.background='rgba(255,240,200,0.15)'">
-      follow the lantern ✦
+      Follow the lantern ✦
     </div>
   </button>
 </div>
@@ -357,23 +291,6 @@ body { overflow: hidden; background: #2A1608; }
     c.appendChild(n);
   }
 })();
-
-/* ── GODDESS PHOTO CLICK ───────────────────────────────── */
-function goddessClick(id, e) {
-  burst(e.clientX, e.clientY, {count:18, colors:['#E8B4B8','#C9B8E8','#C4A862','#FFD580']});
-  launchPetals(12, '#E8B4B8');
-  const msgs = {
-    s4: 'the entire colour palette of this site\nis secretly the colour of ur eyes ☕',
-    s2: 'every cat picks u first. every single time. 🐾\nu have that kind of energy.',
-    s1: 'the way ur eyes light up when someone gives u flowers\nis one of my favourite sights 🌸',
-    s5: 'my lord my queen my raaani\nliterally what r u 😭♡'
-  };
-  secretMessage(msgs[id] || '✦ she is everything ✦', e.clientX, e.clientY-60, {
-    color:'#FAF3E0', duration:4000
-  });
-  Store.discover('goddess_' + id);
-  checkProgress();
-}
 
 /* ── PROGRESS ───────────────────────────────────────────── */
 function checkProgress() {
